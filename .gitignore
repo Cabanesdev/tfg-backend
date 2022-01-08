@@ -1,2 +1,6 @@
 # Untracked folders
 node_modules/
+
+
+# Untracked files
+.env
