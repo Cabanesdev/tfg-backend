@@ -1,22 +1,23 @@
 const { userModel } = require('./model');
 
-let getAll = async () => {
+const getAll = async () => {
 	let users = await userModel.find({});
 	return users;
 };
 
-let createOne = async (user) => {
-	let users = await userModel.create([user]);
-	console.log(`users ${users}`);
-	return users;
+const createOne = async (userdata) => {
+	const user = await userModel.create([userdata]);
+	return user;
 };
 
-let checkUsername = async (username) => {
-	return await userModel.find({ username: username });
+const checkUsername = async (username) => {
+	const user = await userModel.find({ username: username });
+	return !user.length;
 };
 
-let checkEmail = async (email) => {
-	return await userModel.find({ email: email });
+const checkEmail = async (email) => {
+	const user = await userModel.find({ email: email });
+	return !user.length;
 };
 
 module.exports = {

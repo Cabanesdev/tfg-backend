@@ -20,17 +20,16 @@ let createUser = async (body) => {
 		creationDate: currentDate,
 	};
 
-	const userWithUserName = await checkUsername(body.username);
-	const userWithEmail = await checkEmail(body.email);
+	const isUsernameAvailable = await checkUsername(body.username);
+	const isEmailAvailable = await checkEmail(body.email);
 
 	return new Promise((resolve, reject) => {
-		if (userWithUserName.length === 0) {
-			if (userWithEmail.length === 0) {
-				let userCreated = createOne(user);
+		if (isUsernameAvailable) {
+			if (isEmailAvailable) {
+				const userCreated = createOne(user);
 				resolve(userCreated);
-			} else {
-				reject('Email is already used');
 			}
+			reject('Email is already used');
 		}
 		reject('Username is already used');
 	});
