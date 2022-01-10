@@ -11,7 +11,17 @@ let createOne = async (user) => {
 	return users;
 };
 
+let checkUsername = async (username) => {
+	return await userModel.find({ username: username });
+};
+
+let checkEmail = async (email) => {
+	return await userModel.find({ email: email });
+};
+
 module.exports = {
 	getAll,
 	createOne,
+	checkUsername,
+	checkEmail,
 };
