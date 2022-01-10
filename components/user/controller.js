@@ -1,4 +1,4 @@
-let { getAll, createOne } = require('./store');
+let { getAll, createOne, checkUsername } = require('./store');
 
 let getUser = () => {
 	return new Promise((resolve, reject) => {
@@ -7,7 +7,7 @@ let getUser = () => {
 	});
 };
 
-let createUser = (body) => {
+let createUser = async (body) => {
 	const currentDate = new Date().toISOString().slice(0, 10);
 	const user = {
 		username: body.username,
@@ -19,9 +19,14 @@ let createUser = (body) => {
 		creationDate: currentDate,
 	};
 
+	const checkUser = await checkUsername(body.username);
+
 	return new Promise((resolve, reject) => {
-		let userCreated = createOne(user);
-		resolve(userCreated);
+		if (checkUser.length === 0) {
+			let userCreated = createOne(user);
+			resolve(userCreated);
+		}
+		reject('Username is not aviable');
 	});
 };
 
