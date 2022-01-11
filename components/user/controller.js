@@ -1,13 +1,6 @@
-let { getAll, createOne, checkUsername, checkEmail } = require('./store');
+const { createOne, checkUsername, checkEmail } = require('./store');
 
-let getUser = () => {
-	return new Promise((resolve, reject) => {
-		let usersListed = getAll();
-		resolve(usersListed);
-	});
-};
-
-let createUser = async (body) => {
+const createUser = async (body) => {
 	const currentDate = new Date().toISOString().slice(0, 10);
 	const user = {
 		username: body.username,
@@ -29,9 +22,9 @@ let createUser = async (body) => {
 				const userCreated = createOne(user);
 				resolve(userCreated);
 			}
-			reject('Email is already used');
+			reject('Email is already being used');
 		}
-		reject('Username is already used');
+		reject('Username is already being used');
 	});
 };
 

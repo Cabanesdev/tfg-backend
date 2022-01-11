@@ -1,10 +1,5 @@
 const { userModel } = require('./model');
 
-const getAll = async () => {
-	let users = await userModel.find({});
-	return users;
-};
-
 const createOne = async (userdata) => {
 	const user = await userModel.create([userdata]);
 	return user;
