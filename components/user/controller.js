@@ -14,12 +14,12 @@ const createUser = async (body) => {
 		creationDate: currentDate,
 	};
 
-	const isUsernameAvailable = await checkUsername(username);
-	const isEmailAvailable = await checkEmail(email);
+	const existsUsername = await checkUsername(username);
+	const existsEmail = await checkEmail(email);
 
 	return new Promise((resolve, reject) => {
-		if (!isUsernameAvailable) {
-			if (!isEmailAvailable) {
+		if (!existsUsername) {
+			if (!existsEmail) {
 				const userCreated = create(user);
 				resolve(userCreated);
 			}
