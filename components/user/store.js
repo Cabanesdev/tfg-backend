@@ -6,13 +6,11 @@ const create = async (userdata) => {
 };
 
 const checkUsername = async (username) => {
-	const user = await userModel.find({ username: username });
-	return !user.length;
+	return await userModel.exists({ username: username });
 };
 
 const checkEmail = async (email) => {
-	const user = await userModel.find({ email: email });
-	return !user.length;
+	return await userModel.exists({ email: email });
 };
 
 module.exports = {

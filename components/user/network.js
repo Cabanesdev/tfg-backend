@@ -11,16 +11,17 @@ const router = express.Router();
 router.post('', (req, res) => {
 	const { error } = registerSchema.validate(req.body);
 
-	if (error)
-		return response.error(req, res, 'Error', 400, error.details[0].message);
+	if (error) {
+		const { getValidateErrorMessage } = require('../../utils/errorUtils');
+		const errorMessage = getValidateErrorMessage(error);
+		return response.error(req, res, 'Error', 400, errorMessage);
+	}
 
 	createUser(req.body)
 		.then((data) => {
-			console.log(data);
 			response.succes(req, res, 'User Created successfully', 200, data);
 		})
 		.catch((err) => {
-			console.log(err);
 			response.error(req, res, 'Error', 400, err);
 		});
 });
