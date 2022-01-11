@@ -16,7 +16,6 @@ const checkEmail = async (email) => {
 };
 
 module.exports = {
-	getAll,
 	createOne,
 	checkUsername,
 	checkEmail,
