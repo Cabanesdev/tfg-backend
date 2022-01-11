@@ -1,10 +1,20 @@
-const Model = require('./model');
+const { userModel } = require('./model');
 
-let getAll = async () => {
-	let users = await Model.userModel.find({});
-	return users;
+const create = async (userdata) => {
+	const user = await userModel.create([userdata]);
+	return user;
+};
+
+const checkUsername = async (username) => {
+	return await userModel.exists({ username: username });
+};
+
+const checkEmail = async (email) => {
+	return await userModel.exists({ email: email });
 };
 
 module.exports = {
-	getAll,
+	create,
+	checkUsername,
+	checkEmail,
 };
