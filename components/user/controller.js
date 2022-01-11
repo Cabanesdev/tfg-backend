@@ -1,18 +1,12 @@
-let { getAll, createOne, checkUsername, checkEmail } = require('./store');
+const { create, checkUsername, checkEmail } = require('./store');
 
-let getUser = () => {
-	return new Promise((resolve, reject) => {
-		let usersListed = getAll();
-		resolve(usersListed);
-	});
-};
-
-let createUser = async (body) => {
+const createUser = async (body) => {
+	const { username, email } = body;
 	const currentDate = new Date().toISOString().slice(0, 10);
 	const user = {
-		username: body.username,
+		username,
 		password: body.password,
-		email: body.email,
+		email,
 		firstName: body.firstname,
 		surname1: body.surname1,
 		surname2: body.surname2,
@@ -20,23 +14,23 @@ let createUser = async (body) => {
 		creationDate: currentDate,
 	};
 
-	const userWithUserName = await checkUsername(body.username);
-	const userWithEmail = await checkEmail(body.email);
+	const existsUsername = await checkUsername(username);
+	const existsEmail = await checkEmail(email);
 
 	return new Promise((resolve, reject) => {
-		if (userWithUserName.length === 0) {
-			if (userWithEmail.length === 0) {
-				let userCreated = createOne(user);
+		if (!existsUsername) {
+			if (!existsEmail) {
+				const userCreated = create(user);
 				resolve(userCreated);
-			} else {
-				reject('Email is already used');
 			}
+
+			reject('Email is already being used');
 		}
-		reject('Username is already used');
+
+		reject('Username is already being used');
 	});
 };
 
 module.exports = {
-	getUser,
 	createUser,
 };
