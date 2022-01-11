@@ -1,4 +1,4 @@
-const { createOne, checkUsername, checkEmail } = require('./store');
+const { create, checkUsername, checkEmail } = require('./store');
 
 const createUser = async (body) => {
 	const currentDate = new Date().toISOString().slice(0, 10);
@@ -19,7 +19,7 @@ const createUser = async (body) => {
 	return new Promise((resolve, reject) => {
 		if (isUsernameAvailable) {
 			if (isEmailAvailable) {
-				const userCreated = createOne(user);
+				const userCreated = create(user);
 				resolve(userCreated);
 			}
 			reject('Email is already being used');

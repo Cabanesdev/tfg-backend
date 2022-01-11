@@ -8,7 +8,7 @@ const { createUser } = require('./controller');
 
 const router = express.Router();
 
-router.post('/create', (req, res) => {
+router.post('', (req, res) => {
 	const { error } = registerSchema.validate(req.body);
 
 	if (error)
