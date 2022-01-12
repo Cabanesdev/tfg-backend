@@ -6,5 +6,5 @@ const encryptPass = async (password) => {
 };
 
 module.exports = {
-	passwordEncrypted,
+	encryptPass,
 };
