@@ -25,8 +25,7 @@ const createUser = async (body) => {
 			if (!existsEmail) {
 				const userCreated = await create(user);
 				const userId = userCreated[0].id;
-				const userData = await getUser(userId);
-				resolve(userData);
+				resolve(await getUser(userId));
 			}
 
 			reject('Email is already being used');
