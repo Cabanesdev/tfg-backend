@@ -8,7 +8,7 @@ const createUser = async (body) => {
 
 	const user = {
 		username,
-		password: password,
+		password,
 		email,
 		firstName: body.firstname,
 		surname1: body.surname1,
