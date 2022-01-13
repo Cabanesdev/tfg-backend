@@ -1,25 +1,27 @@
 {
-  "name": "tfg-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Cabanesdev/tfg-backend.git"
-  },
-  "author": "Cabanesdev",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Cabanesdev/tfg-backend/issues"
-  },
-  "homepage": "https://github.com/Cabanesdev/tfg-backend#readme",
-  "dependencies": {
-    "dotenv": "^10.0.0",
-    "express": "^4.17.2",
-    "joi": "^17.5.0",
-    "mongoose": "^6.1.5"
-  }
+	"name": "tfg-backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Cabanesdev/tfg-backend.git"
+	},
+	"author": "Cabanesdev",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Cabanesdev/tfg-backend/issues"
+	},
+	"homepage": "https://github.com/Cabanesdev/tfg-backend#readme",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.2",
+		"joi": "^17.5.0",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^6.1.5"
+	}
 }
