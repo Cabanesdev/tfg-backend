@@ -1,4 +1,4 @@
-const { create, checkUsername, checkEmail } = require('./store');
+const { create, checkUsername, checkEmail, getUser } = require('./store');
 const { encryptPass } = require('../../utils/encrypt');
 
 const createUser = async (body) => {
@@ -20,11 +20,13 @@ const createUser = async (body) => {
 	const existsUsername = await checkUsername(username);
 	const existsEmail = await checkEmail(email);
 
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		if (!existsUsername) {
 			if (!existsEmail) {
-				const userCreated = create(user);
-				resolve(userCreated);
+				const userCreated = await create(user);
+				const userId = userCreated[0].id;
+				const userData = await getUser(userId);
+				resolve(userData);
 			}
 
 			reject('Email is already being used');

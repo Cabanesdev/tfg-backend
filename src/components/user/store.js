@@ -5,6 +5,11 @@ const create = async (userdata) => {
 	return user;
 };
 
+const getUser = async (id) => {
+	const user = await userModel.findById(id).select('-password');
+	return user;
+};
+
 const checkUsername = async (username) => {
 	return await userModel.exists({ username: username });
 };
@@ -17,4 +22,5 @@ module.exports = {
 	create,
 	checkUsername,
 	checkEmail,
+	getUser,
 };
