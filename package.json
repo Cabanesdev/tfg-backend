@@ -2,7 +2,7 @@
 	"name": "tfg-backend",
 	"version": "1.0.0",
 	"description": "",
-	"main": "server.js",
+	"main": "src/server.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -22,6 +22,13 @@
 		"express": "^4.17.2",
 		"joi": "^17.5.0",
 		"jsonwebtoken": "^8.5.1",
+		"module-alias": "^2.2.2",
 		"mongoose": "^6.1.5"
+	},
+	"_moduleAliases": {
+		"@root": ".",
+		"@config": "src/config/index.js",
+		"@components": "src/components",
+		"@responses": "src/network/responses.js"
 	}
 }

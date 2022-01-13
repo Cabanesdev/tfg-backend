@@ -1,5 +1,5 @@
 const express = require('express');
-const response = require('../../network/responses');
+const response = require('@responses');
 
 const {
 	registerSchema,
