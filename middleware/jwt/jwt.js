@@ -5,7 +5,7 @@ const { tokenKey } = config;
 const createToken = (user) => {
 	const { username, id } = user;
 
-	return (token = sign({ username, id }, tokenKey));
+	return sign({ username, id }, tokenKey);
 };
 
 module.exports = {
