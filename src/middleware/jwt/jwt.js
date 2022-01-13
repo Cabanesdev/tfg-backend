@@ -1,5 +1,5 @@
-const { sign, verify } = require('jsonwebtoken');
-const config = require('../../config/index');
+const { sign } = require('jsonwebtoken');
+const config = require('@config');
 const { tokenKey } = config;
 
 const createToken = (user) => {

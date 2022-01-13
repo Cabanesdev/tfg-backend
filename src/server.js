@@ -1,4 +1,6 @@
-const config = require('./config');
+require('module-alias/register');
+
+const config = require('@config');
 const express = require('express');
 const bodyParser = require('body-parser');
 
