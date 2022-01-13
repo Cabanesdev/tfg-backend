@@ -1,11 +1,14 @@
 const { create, checkUsername, checkEmail } = require('./store');
+const { encryptPass } = require('../../utils/encrypt');
 
 const createUser = async (body) => {
 	const { username, email } = body;
+	const password = await encryptPass(body.password);
 	const currentDate = new Date().toISOString().slice(0, 10);
+
 	const user = {
 		username,
-		password: body.password,
+		password,
 		email,
 		firstName: body.firstname,
 		surname1: body.surname1,
