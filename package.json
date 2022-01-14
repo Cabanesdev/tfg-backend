@@ -18,6 +18,7 @@
 	"homepage": "https://github.com/Cabanesdev/tfg-backend#readme",
 	"dependencies": {
 		"bcrypt": "^5.0.1",
+		"cookie-parser": "^1.4.6",
 		"dotenv": "^10.0.0",
 		"express": "^4.17.2",
 		"joi": "^17.5.0",
@@ -27,8 +28,10 @@
 	},
 	"_moduleAliases": {
 		"@root": ".",
+		"@src": "src",
 		"@config": "src/config/index.js",
 		"@components": "src/components",
-		"@responses": "src/network/responses.js"
+		"@responses": "src/network/responses.js",
+		"@validators": "src/middleware/validators"
 	}
 }

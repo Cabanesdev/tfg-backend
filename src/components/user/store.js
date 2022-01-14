@@ -1,11 +1,12 @@
 const { userModel } = require('./model');
 
-const create = async (userdata) => {
-	const user = await userModel.create([userdata]);
-	return user;
-};
+const create = async (userdata) => await userModel.create([userdata]);
 
-const getUser = async (id) => await userModel.findById(id).select('-password');
+const getUserById = async (id) =>
+	await userModel.findById(id).select('-password');
+
+const getPasswordByUsername = async (username) =>
+	await userModel.find({ username }).select('password');
 
 const checkUsername = async (username) => await userModel.exists({ username });
 
@@ -15,5 +16,6 @@ module.exports = {
 	create,
 	checkUsername,
 	checkEmail,
-	getUser,
+	getUserById,
+	getPasswordByUsername,
 };
