@@ -45,10 +45,10 @@ const createUser = async (body) => {
 
 const login = async (body) => {
 	const { username } = body;
-	const isAlreadyExists = await checkUsername(username);
+	const userAlreadyExists = await checkUsername(username);
 
 	return new Promise(async (resolve, reject) => {
-		if (isAlreadyExists) {
+		if (userAlreadyExists) {
 			const { password } = await getPasswordByUsername(username);
 			const isPasswordCorrect = await comparePass(body.password, password);
 
