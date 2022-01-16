@@ -14,16 +14,22 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	firstName: {
+	name: {
 		type: String,
 		required: true,
 	},
-	surname1: {
+	biography: {
 		type: String,
 		required: true,
 	},
-	surname2: String,
-	birthday: Date,
+	webpage: {
+		type: String,
+		required: true,
+	},
+	birthday: {
+		type: Date,
+		required: true,
+	},
 	creationDate: {
 		type: Date,
 		required: true,

@@ -17,9 +17,9 @@ const createUser = async (body) => {
 		username,
 		password,
 		email,
-		firstName: body.firstname,
-		surname1: body.surname1,
-		surname2: body.surname2,
+		name: body.name,
+		biography: body.biography,
+		webpage: body.webpage,
 		birthday: body.birthday,
 		creationDate: currentDate,
 	};
