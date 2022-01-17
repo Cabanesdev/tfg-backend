@@ -60,7 +60,7 @@ router.put('', validateToken, (req, res) => {
 
 	editUser(req.userId, req.body)
 		.then((data) => {
-			response.succes(req, res, 'Login', 200, data);
+			response.succes(req, res, 'Login', 204, data);
 		})
 		.catch((err) => {
 			response.error(req, res, 'Error', 400, err);
