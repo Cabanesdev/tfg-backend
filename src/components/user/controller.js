@@ -4,6 +4,8 @@ const {
 	checkEmail,
 	getPasswordByUsername,
 	getUserById,
+	getUserByUsername,
+	edit,
 } = require('./store');
 
 const { encryptPass, comparePass } = require('@src/utils/encrypt');
@@ -45,21 +47,49 @@ const createUser = async (body) => {
 
 const login = async (body) => {
 	const { username } = body;
-	const isAlreadyExists = await checkUsername(username);
+	const userAlreadyExists = await checkUsername(username);
 
 	return new Promise(async (resolve, reject) => {
-		if (isAlreadyExists) {
+		if (userAlreadyExists) {
 			const { password } = await getPasswordByUsername(username);
 			const isPasswordCorrect = await comparePass(body.password, password);
+			const user = await getUserByUsername(username);
 
-			if (isPasswordCorrect) resolve('Login successfully');
+			if (isPasswordCorrect) resolve(user);
 		}
 
 		reject('Username or password is not correct');
 	});
 };
 
+const editUser = async (id, body) => {
+	const { username, email } = body;
+	const newData = {
+		name: body.name,
+		biography: body.biography,
+		webpage: body.webpage,
+	};
+
+	return new Promise(async (resolve, reject) => {
+		if (username) {
+			newData.username = username;
+			const existsUsername = await checkUsername(username);
+			if (existsUsername) return reject('Username is already being used');
+		}
+
+		if (email) {
+			newData.email = email;
+			const existsEmail = await checkEmail(email);
+			if (existsEmail) return reject('Email is already being used');
+		}
+
+		await edit(id, newData);
+		resolve('User has been updated');
+	});
+};
+
 module.exports = {
 	createUser,
 	login,
+	editUser,
 };

@@ -18,6 +18,7 @@ const validateToken = (req, res, next) => {
 		const validToken = verify(token, tokenKey);
 		if (validToken) {
 			req.authenticated = true;
+			req.userId = validToken.id;
 			return next();
 		}
 	} catch (err) {

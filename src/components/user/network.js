@@ -1,10 +1,11 @@
 const express = require('express');
 const response = require('@responses');
 
-const { createToken } = require('@src/middleware/jwt/jwt');
+const { createToken, validateToken } = require('@src/middleware/jwt/jwt');
 const { registerSchema, loginSchema } = require('@validators/user.validator');
 
-const { createUser, login } = require('./controller');
+const { createUser, login, editUser } = require('./controller');
+const { editSchema } = require('../../middleware/validators/user.validator');
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.post('', (req, res) => {
 	const { error } = registerSchema.validate(req.body);
 
 	if (error) {
-		const { getValidationErrorMessage } = require('../../utils/errorUtils');
+		const { getValidationErrorMessage } = require('@src/utils/errorUtils');
 		const errorMessage = getValidationErrorMessage(error);
 		return response.error(req, res, 'Error', 400, errorMessage);
 	}
@@ -41,7 +42,25 @@ router.post('/login', (req, res) => {
 			res.cookie('access-token', token, {
 				maxAge: 12 * 60 * 60 * 1000, // 12h
 			});
-			response.succes(req, res, 'Login successfully', 200, data);
+			response.succes(req, res, 'Login', 200, 'Login successfully');
+		})
+		.catch((err) => {
+			response.error(req, res, 'Error', 400, err);
+		});
+});
+
+router.put('', validateToken, (req, res) => {
+	const { error } = editSchema.validate(req.body);
+
+	if (error) {
+		const { getValidationErrorMessage } = require('@src/utils/errorUtils');
+		const errorMessage = getValidationErrorMessage(error);
+		return response.error(req, res, 'Error', 400, errorMessage);
+	}
+
+	editUser(req.userId, req.body)
+		.then((data) => {
+			response.succes(req, res, 'Login', 200, data);
 		})
 		.catch((err) => {
 			response.error(req, res, 'Error', 400, err);
