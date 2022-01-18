@@ -30,9 +30,9 @@ const createUser = async (body) => {
 	return new Promise(async (resolve, reject) => {
 		if (!existsUsername) {
 			if (!existsEmail) {
-				const userCreated = await create(newUser);
-				const userId = userCreated.id;
-				const user = await getUserById(userId);
+				const { id } = await create(newUser);
+				console.log('id: ' + id);
+				const user = await getUserById(id);
 				resolve(user);
 			}
 
