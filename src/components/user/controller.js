@@ -1,14 +1,21 @@
-const { create, checkUsername, checkEmail, getUser } = require('./store');
-const { encryptPass } = require('../../utils/encrypt');
+const {
+	create,
+	checkUsername,
+	checkEmail,
+	getPasswordByUsername,
+	getUserById,
+} = require('./store');
+
+const { encryptPass, comparePass } = require('@utils/encrypt');
 
 const createUser = async (body) => {
-	const { username, email } = body;
-	const password = await encryptPass(body.password);
+	const { username, email, password } = body;
+	const encryptedPassword = await encryptPass(password);
 	const currentDate = new Date().toISOString().slice(0, 10);
 
-	const user = {
+	const newUser = {
 		username,
-		password,
+		password: encryptedPassword,
 		email,
 		firstName: body.firstname,
 		surname1: body.surname1,
@@ -23,9 +30,8 @@ const createUser = async (body) => {
 	return new Promise(async (resolve, reject) => {
 		if (!existsUsername) {
 			if (!existsEmail) {
-				const userCreated = await create(user);
-				const userId = userCreated[0].id;
-				resolve(await getUser(userId));
+				const { id } = await create(newUser);
+				resolve(await getUserById(id));
 			}
 
 			reject('Email is already being used');
@@ -35,6 +41,25 @@ const createUser = async (body) => {
 	});
 };
 
+const login = async (body) => {
+	const { username, password } = body;
+	const userExists = await checkUsername(username);
+
+	return new Promise(async (resolve, reject) => {
+		if (userExists) {
+			const { password: encryptedPassword } = await getPasswordByUsername(
+				username
+			);
+			const isPasswordCorrect = await comparePass(password, encryptedPassword);
+
+			if (isPasswordCorrect) resolve('Login successfully');
+		}
+
+		reject('Username or password is not correct');
+	});
+};
+
 module.exports = {
 	createUser,
+	login,
 };

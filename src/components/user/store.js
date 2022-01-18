@@ -2,10 +2,16 @@ const { userModel } = require('./model');
 
 const create = async (userdata) => {
 	const user = await userModel.create([userdata]);
-	return user;
+	return user[0];
 };
 
-const getUser = async (id) => await userModel.findById(id).select('-password');
+const getUserById = async (id) =>
+	await userModel.findById(id).select('-password');
+
+const getPasswordByUsername = async (username) => {
+	const password = await userModel.find({ username }).select('password');
+	return password[0];
+};
 
 const checkUsername = async (username) => await userModel.exists({ username });
 
@@ -15,5 +21,6 @@ module.exports = {
 	create,
 	checkUsername,
 	checkEmail,
-	getUser,
+	getUserById,
+	getPasswordByUsername,
 };
