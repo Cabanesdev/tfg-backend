@@ -12,7 +12,7 @@ const getUserByUsername = async (username) =>
 	await userModel.findOne({ username }).select('-password');
 
 const getUsersByUsername = async (username) =>
-	await userModel.find({ username: { $regex: '^' + username + '.*' } });
+	await userModel.find({ username: { $regex: `^${username}.*` } });
 
 const getPasswordByUsername = async (username) =>
 	await userModel.findOne({ username }).select('password');
