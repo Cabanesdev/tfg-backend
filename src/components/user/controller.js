@@ -31,7 +31,7 @@ const createUser = async (body) => {
 		if (!existsUsername) {
 			if (!existsEmail) {
 				const { id } = await create(newUser);
-				resolve(user);
+				resolve(await getUserById(id));
 			}
 
 			reject('Email is already being used');
