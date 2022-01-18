@@ -32,6 +32,7 @@
 		"@config": "src/config/index.js",
 		"@components": "src/components",
 		"@responses": "src/network/responses.js",
-		"@validators": "src/middleware/validators"
+		"@validators": "src/middleware/validators",
+		"@utils": "src/utils"
 	}
 }
