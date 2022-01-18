@@ -8,10 +8,13 @@ const create = async (userdata) => {
 const getUserById = async (id) =>
 	await userModel.findById(id).select('-password');
 
-const getPasswordByUsername = async (username) => {
-	const password = await userModel.find({ username }).select('password');
-	return password[0];
-};
+const getUserByUsername = async (username) =>
+	await userModel.findOne({ username }).select('-password');
+
+const getPasswordByUsername = async (username) =>
+	await userModel.findOne({ username }).select('password');
+
+const edit = async (id, data) => await userModel.findByIdAndUpdate(id, data);
 
 const checkUsername = async (username) => await userModel.exists({ username });
 
@@ -22,5 +25,7 @@ module.exports = {
 	checkUsername,
 	checkEmail,
 	getUserById,
+	getUserByUsername,
+	edit,
 	getPasswordByUsername,
 };

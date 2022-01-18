@@ -4,6 +4,8 @@ const {
 	checkEmail,
 	getPasswordByUsername,
 	getUserById,
+	getUserByUsername,
+	edit,
 } = require('./store');
 
 const { encryptPass, comparePass } = require('@utils/encrypt');
@@ -51,15 +53,41 @@ const login = async (body) => {
 				username
 			);
 			const isPasswordCorrect = await comparePass(password, encryptedPassword);
-
-			if (isPasswordCorrect) resolve('Login successfully');
+			if (isPasswordCorrect) resolve(await getUserByUsername(username));
 		}
 
 		reject('Username or password is not correct');
 	});
 };
 
+const editUser = async (id, body) => {
+	const { username, email } = body;
+	const newData = {
+		name: body.name,
+		biography: body.biography,
+		webpage: body.webpage,
+	};
+
+	return new Promise(async (resolve, reject) => {
+		if (username) {
+			newData.username = username;
+			const existsUsername = await checkUsername(username);
+			if (existsUsername) return reject('Username is already being used');
+		}
+
+		if (email) {
+			newData.email = email;
+			const existsEmail = await checkEmail(email);
+			if (existsEmail) return reject('Email is already being used');
+		}
+
+		await edit(id, newData);
+		resolve('User has been updated');
+	});
+};
+
 module.exports = {
 	createUser,
 	login,
+	editUser,
 };
