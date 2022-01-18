@@ -19,6 +19,9 @@ const router = express.Router();
 
 router.get('', (req, res) => {
 	const username = req.query.username;
+	let limit = req.query.limit;
+	let page = req.query.page;
+
 	if (!username)
 		return response.error(
 			req,
@@ -28,7 +31,10 @@ router.get('', (req, res) => {
 			'Username filter cant be empty string'
 		);
 
-	searchByUsername(username)
+	if (!limit) limit = 5;
+	if (!page) page = 0;
+
+	searchByUsername(username, limit, page)
 		.then((data) => response.succes(req, res, 'FilterUser', 200, data))
 		.catch((err) => response.error(req, res, 'Error', 400, err));
 });

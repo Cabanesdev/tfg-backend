@@ -89,9 +89,9 @@ const editUser = async (id, body) => {
 	});
 };
 
-const searchByUsername = async (username) => {
+const searchByUsername = async (username, limit, page) => {
 	return new Promise(async (resolve) => {
-		const users = await getUsersByUsername(username);
+		const users = await getUsersByUsername(username, limit, page);
 		resolve(users);
 	});
 };
