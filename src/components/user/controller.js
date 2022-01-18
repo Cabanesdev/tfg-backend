@@ -31,8 +31,6 @@ const createUser = async (body) => {
 		if (!existsUsername) {
 			if (!existsEmail) {
 				const { id } = await create(newUser);
-				console.log('id: ' + id);
-				const user = await getUserById(id);
 				resolve(user);
 			}
 
