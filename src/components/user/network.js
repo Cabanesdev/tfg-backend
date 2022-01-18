@@ -1,7 +1,7 @@
 const express = require('express');
 const response = require('@responses');
 
-const { createToken, validateToken } = require('@src/middleware/jwt/jwt');
+const { createToken, validateToken } = require('@src/middleware/jwt');
 const { registerSchema, loginSchema } = require('@validators/user.validator');
 
 const { createUser, login, editUser } = require('./controller');
@@ -13,7 +13,7 @@ router.post('', (req, res) => {
 	const { error } = registerSchema.validate(req.body);
 
 	if (error) {
-		const { getValidationErrorMessage } = require('@src/utils/errorUtils');
+		const { getValidationErrorMessage } = require('@utils/errorUtils');
 		const errorMessage = getValidationErrorMessage(error);
 		return response.error(req, res, 'Error', 400, errorMessage);
 	}
@@ -31,7 +31,7 @@ router.post('/login', (req, res) => {
 	const { error } = loginSchema.validate(req.body);
 
 	if (error) {
-		const { getValidationErrorMessage } = require('../../utils/errorUtils');
+		const { getValidationErrorMessage } = require('@utils/errorUtils');
 		const errorMessage = getValidationErrorMessage(error);
 		return response.error(req, res, 'Error', 400, errorMessage);
 	}
