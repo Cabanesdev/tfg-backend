@@ -14,6 +14,7 @@ const getUserByUsername = async (username) =>
 const getUsersByUsername = async (username, limit, page) =>
 	await userModel
 		.find({ username: { $regex: `^${username}.*` } })
+		.select('-password')
 		.limit(limit)
 		.skip(page);
 
