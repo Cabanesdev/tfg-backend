@@ -87,7 +87,7 @@ router.put('', validateToken, (req, res) => {
 
 	editUser(req.userId, req.body)
 		.then((data) => {
-			response.succes(req, res, 'Edit User', 204, data);
+			response.succes(req, res, 'User Edited', 204, data);
 		})
 		.catch((err) => {
 			console.log(err);
