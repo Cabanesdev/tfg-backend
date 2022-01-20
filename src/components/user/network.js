@@ -1,13 +1,40 @@
 const express = require('express');
 const response = require('@responses');
 
+const {
+	registerSchema,
+	loginSchema,
+	editSchema,
+} = require('@validators/user.validator');
 const { createToken, validateToken } = require('@src/middleware/jwt');
-const { registerSchema, loginSchema } = require('@validators/user.validator');
 
-const { createUser, login, editUser } = require('./controller');
-const { editSchema } = require('../../middleware/validators/user.validator');
+const {
+	createUser,
+	login,
+	editUser,
+	searchByUsername,
+} = require('./controller');
 
 const router = express.Router();
+
+router.get('', (req, res) => {
+	const username = req.query.username;
+	let limit = req.query.limit || 5;
+	let page = req.query.page || 0;
+
+	if (!username)
+		return response.error(
+			req,
+			res,
+			'Error',
+			400,
+			'Username filter cant be empty string'
+		);
+
+	searchByUsername(username, limit, page)
+		.then((data) => response.succes(req, res, 'FilterUser', 200, data))
+		.catch((err) => response.error(req, res, 'Error', 400, err));
+});
 
 router.post('', (req, res) => {
 	const { error } = registerSchema.validate(req.body);
@@ -60,9 +87,10 @@ router.put('', validateToken, (req, res) => {
 
 	editUser(req.userId, req.body)
 		.then((data) => {
-			response.succes(req, res, 'Login', 204, data);
+			response.succes(req, res, 'User Edited', 204, data);
 		})
 		.catch((err) => {
+			console.log(err);
 			response.error(req, res, 'Error', 400, err);
 		});
 });

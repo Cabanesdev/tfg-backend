@@ -6,6 +6,7 @@ const {
 	getUserById,
 	getUserByUsername,
 	edit,
+	getUsersByUsername,
 } = require('./store');
 
 const { encryptPass, comparePass } = require('@utils/encrypt');
@@ -86,8 +87,16 @@ const editUser = async (id, body) => {
 	});
 };
 
+const searchByUsername = async (username, limit, page) => {
+	return new Promise(async (resolve) => {
+		const users = await getUsersByUsername(username, limit, page);
+		resolve(users);
+	});
+};
+
 module.exports = {
 	createUser,
 	login,
 	editUser,
+	searchByUsername,
 };

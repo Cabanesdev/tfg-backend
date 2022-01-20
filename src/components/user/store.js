@@ -11,6 +11,13 @@ const getUserById = async (id) =>
 const getUserByUsername = async (username) =>
 	await userModel.findOne({ username }).select('-password');
 
+const getUsersByUsername = async (username, limit, page) =>
+	await userModel
+		.find({ username: { $regex: `^${username}.*` } })
+		.select('-password')
+		.limit(limit)
+		.skip(page);
+
 const getPasswordByUsername = async (username) =>
 	await userModel.findOne({ username }).select('password');
 
@@ -28,4 +35,5 @@ module.exports = {
 	getUserByUsername,
 	edit,
 	getPasswordByUsername,
+	getUsersByUsername,
 };

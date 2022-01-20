@@ -12,7 +12,8 @@ const createToken = (user) => {
 const validateToken = (req, res, next) => {
 	const token = req.cookies['access-token'];
 
-	if (!token) responses.error(req, res, 'Unauthorized', 400, 'No token found');
+	if (!token)
+		return responses.error(req, res, 'Unauthorized', 400, 'No token found');
 
 	try {
 		const validToken = verify(token, tokenKey);
