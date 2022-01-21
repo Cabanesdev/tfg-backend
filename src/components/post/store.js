@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const postModel = require('./model');
 
 const create = async (data) => {
@@ -5,4 +6,7 @@ const create = async (data) => {
 	return post[0];
 };
 
-module.exports = { create };
+const getPostById = async (id) =>
+	await postModel.findById(mongoose.Types.ObjectId(id));
+
+module.exports = { create, getPostById };
