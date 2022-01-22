@@ -3,9 +3,26 @@ const router = express.Router();
 
 const { createSchema } = require('@validators/post.validator');
 const { validateToken } = require('@src/middleware/jwt');
-const { createPost } = require('./controller');
+const { createPost, getPost } = require('./controller');
 
 const response = require('@responses');
+
+router.get('', (req, res) => {
+	const id = req.query.id;
+
+	if (!id)
+		return response.error(
+			req,
+			res,
+			'Error',
+			400,
+			'Cannot retrieve a post without an id'
+		);
+
+	getPost(id)
+		.then((data) => response.succes(req, res, 'Get Post', 200, data))
+		.catch((err) => response.error(req, res, 'Error', 400, err));
+});
 
 router.post('', validateToken, (req, res) => {
 	const { error } = createSchema.validate(req.body);
@@ -17,12 +34,8 @@ router.post('', validateToken, (req, res) => {
 	}
 
 	createPost(req.userId, req.body)
-		.then((data) => {
-			response.succes(req, res, 'Create Post', 200, data);
-		})
-		.catch((err) => {
-			response.error(req, res, 'Error', 200, err);
-		});
+		.then((data) => response.succes(req, res, 'Create Post', 200, data))
+		.catch((err) => response.error(req, res, 'Error', 200, err));
 });
 
 module.exports = router;
