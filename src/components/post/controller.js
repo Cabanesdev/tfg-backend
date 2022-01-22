@@ -1,13 +1,13 @@
 const { create } = require('./store');
 
 const createPost = (id, body) => {
-	const currentDate = new Date().toISOString().slice(0, 10);
+	const creationDate = new Date().toISOString().slice(0, 10);
 
 	const newPost = {
 		title: body.title,
 		content: body.content,
 		userId: id,
-		creationDate: currentDate,
+		creationDate,
 	};
 
 	return new Promise(async (resolve) => {
