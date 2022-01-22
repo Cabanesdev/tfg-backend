@@ -9,9 +9,19 @@ const response = require('@responses');
 
 router.get('', (req, res) => {
 	const id = req.query.id;
+
+	if (!id)
+		return response.error(
+			req,
+			res,
+			'Error',
+			400,
+			'Cannot retrieve a post without an id'
+		);
+
 	getPost(id)
 		.then((data) => response.succes(req, res, 'Get Post', 200, data))
-		.catch((err) => response.error(req, res, 'Error', 200, err));
+		.catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
 router.post('', validateToken, (req, res) => {
