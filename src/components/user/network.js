@@ -104,4 +104,9 @@ router.delete('', validateToken, (req, res) => {
 		.catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
+router.delete('/logout', validateToken, (req, res) => {
+	res.clearCookie('access-token');
+	response.succes(req, res, 'Logout', 204, 'Logout');
+});
+
 module.exports = router;
