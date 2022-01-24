@@ -98,11 +98,12 @@ const searchByUsername = async (username, limit, page) => {
 };
 
 const deleteUser = async (id) => {
-	const isAllDeleted = deleteAllByUserId(id);
+	const deleteResult = deleteAllByUserId(id);
 	return new Promise(async (resolve, reject) => {
-		if (!isAllDeleted) return reject('An inexperienced error has occurred');
+		if (deleteResult.error)
+			return reject('An inexperienced error has occurred');
 		await deleteById(id);
-		resolve('User succesfully deleted ');
+		resolve('User succesfully deleted');
 	});
 };
 

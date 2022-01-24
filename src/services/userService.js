@@ -1,7 +1,10 @@
 const deleteAllByUserId = async (userId) => {
 	const { deleteByUserId } = require('@components/post/store');
-	await deleteByUserId(userId);
-	return true;
+	try {
+		await deleteByUserId(userId);
+	} catch (err) {
+		return { error: err };
+	}
 };
 
-module.exports = deleteAllByUserId;
+module.exports = { deleteAllByUserId };
