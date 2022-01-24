@@ -7,7 +7,10 @@ const {
 	getUserByUsername,
 	edit,
 	getUsersByUsername,
+	deleteById,
 } = require('./store');
+
+const deleteAllByUserId = require('@services/userService');
 
 const { encryptPass, comparePass } = require('@utils/encrypt');
 
@@ -94,9 +97,19 @@ const searchByUsername = async (username, limit, page) => {
 	});
 };
 
+const deleteUser = async (id) => {
+	const isAllDeleted = deleteAllByUserId(id);
+	return new Promise(async (resolve, reject) => {
+		if (!isAllDeleted) return reject('An inexperienced error has occurred');
+		await deleteById(id);
+		resolve('User succesfully deleted ');
+	});
+};
+
 module.exports = {
 	createUser,
 	login,
 	editUser,
 	searchByUsername,
+	deleteUser,
 };
