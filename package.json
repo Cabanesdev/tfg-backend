@@ -33,6 +33,7 @@
 		"@components": "src/components",
 		"@responses": "src/network/responses.js",
 		"@validators": "src/middleware/validators",
-		"@utils": "src/utils"
+		"@utils": "src/utils",
+		"@services": "src/services"
 	}
 }

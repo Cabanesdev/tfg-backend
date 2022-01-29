@@ -27,6 +27,8 @@ const checkUsername = async (username) => await userModel.exists({ username });
 
 const checkEmail = async (email) => await userModel.exists({ email });
 
+const deleteById = async (id) => await userModel.findByIdAndDelete(id);
+
 module.exports = {
 	create,
 	checkUsername,
@@ -36,4 +38,5 @@ module.exports = {
 	edit,
 	getPasswordByUsername,
 	getUsersByUsername,
+	deleteById,
 };

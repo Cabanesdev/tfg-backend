@@ -9,4 +9,6 @@ const create = async (data) => {
 const getPostById = async (id) =>
 	await postModel.findById(mongoose.Types.ObjectId(id));
 
-module.exports = { create, getPostById };
+const deleteByUserId = async (userId) => await postModel.deleteMany({ userId });
+
+module.exports = { create, getPostById, deleteByUserId };

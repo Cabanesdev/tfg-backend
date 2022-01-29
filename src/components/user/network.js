@@ -13,6 +13,7 @@ const {
 	login,
 	editUser,
 	searchByUsername,
+	deleteUser,
 } = require('./controller');
 
 const router = express.Router();
@@ -90,9 +91,17 @@ router.put('', validateToken, (req, res) => {
 			response.succes(req, res, 'User Edited', 204, data);
 		})
 		.catch((err) => {
-			console.log(err);
 			response.error(req, res, 'Error', 400, err);
 		});
+});
+
+router.delete('', validateToken, (req, res) => {
+	deleteUser(req.userId)
+		.then((data) => {
+			res.clearCookie('access-token');
+			response.succes(req, res, 'Delete user', 204, data);
+		})
+		.catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
 module.exports = router;
