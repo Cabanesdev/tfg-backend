@@ -67,9 +67,7 @@ router.post('/login', (req, res) => {
 	login(req.body)
 		.then((data) => {
 			const token = createToken(data);
-			res.cookie('access-token', token, {
-				maxAge: 12 * 60 * 60 * 1000, // 12h
-			});
+			res.set('x-access-token', token);
 			response.succes(req, res, 'Login', 200, 'Login successfully');
 		})
 		.catch((err) => {
