@@ -2,16 +2,19 @@ require('module-alias/register');
 
 const config = require('@config');
 const express = require('express');
-const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const router = require('./network/routes');
-
 const connectMongo = require('./db');
+
+const corsOptions = {
+	origin: '*',
+	optionsSuccessStatus: 200,
+};
 
 let app = express();
 
-app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
