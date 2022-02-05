@@ -10,6 +10,7 @@ const connectMongo = require('./db');
 const corsOptions = {
 	origin: '*',
 	optionsSuccessStatus: 200,
+	exposedHeaders: ['x-access-token'],
 };
 
 let app = express();

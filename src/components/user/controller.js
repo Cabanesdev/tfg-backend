@@ -47,6 +47,12 @@ const createUser = async (body) => {
 	});
 };
 
+const getUserSession = async (id) => {
+	return new Promise(async (resolve, reject) => {
+		resolve(await getUserById(id));
+	});
+};
+
 const login = async (body) => {
 	const { username, password } = body;
 	const userExists = await checkUsername(username);

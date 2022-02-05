@@ -14,6 +14,7 @@ const {
 	editUser,
 	searchByUsername,
 	deleteUser,
+	getUserSession,
 } = require('./controller');
 
 const router = express.Router();
@@ -34,6 +35,12 @@ router.get('', (req, res) => {
 
 	searchByUsername(username, limit, page)
 		.then((data) => response.succes(req, res, 'FilterUser', 200, data))
+		.catch((err) => response.error(req, res, 'Error', 400, err));
+});
+
+router.get('/session', validateToken, (req, res) => {
+	getUserSession(req.userId)
+		.then((data) => response.succes(req, res, 'User', 200, data))
 		.catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
