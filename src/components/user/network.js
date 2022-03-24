@@ -103,7 +103,6 @@ router.put('', validateToken, (req, res) => {
 router.delete('', validateToken, (req, res) => {
 	deleteUser(req.userId)
 		.then((data) => {
-			res.clearCookie('access-token');
 			response.succes(req, res, 'Delete user', 204, data);
 		})
 		.catch((err) => response.error(req, res, 'Error', 400, err));
