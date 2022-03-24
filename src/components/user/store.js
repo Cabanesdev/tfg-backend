@@ -11,12 +11,12 @@ const getUserById = async (id) =>
 const getUserByUsername = async (username) =>
 	await userModel.findOne({ username }).select('-password');
 
-const getUsersByUsername = async (username, limit, page) =>
+const getUsersByUsername = async (username, page) =>
 	await userModel
 		.find({ username: { $regex: `^${username}.*` } })
 		.select('-password')
-		.limit(limit)
-		.skip(page);
+		.skip((page - 1) * 5)
+		.limit(5);
 
 const getPasswordByUsername = async (username) =>
 	await userModel.findOne({ username }).select('password');

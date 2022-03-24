@@ -58,33 +58,26 @@ const login = async (body) => {
 
 const editUser = async (id, body) => {
 	const { username, email } = body;
-	const newData = {
-		name: body.name,
-		biography: body.biography,
-		webpage: body.webpage,
-	};
 
 	return new Promise(async (resolve, reject) => {
 		if (username) {
-			newData.username = username;
 			const existsUsername = await checkUsername(username);
 			if (existsUsername) return reject('Username is already being used');
 		}
 
 		if (email) {
-			newData.email = email;
 			const existsEmail = await checkEmail(email);
 			if (existsEmail) return reject('Email is already being used');
 		}
 
-		await edit(id, newData);
+		await edit(id, body);
 		resolve('User has been updated');
 	});
 };
 
-const searchByUsername = async (username, limit, page) => {
+const searchByUsername = async (username, page) => {
 	return new Promise(async (resolve) => {
-		const users = await getUsersByUsername(username, limit, page);
+		const users = await getUsersByUsername(username, page);
 		resolve(users);
 	});
 };
