@@ -82,6 +82,13 @@ const searchByUsername = async (username, page) => {
 	});
 };
 
+const getUser = async (userId) => {
+	return new Promise(async (resolve) => {
+		const users = await getUserById(userId);
+		resolve(users);
+	});
+};
+
 const deleteUser = async (id) => {
 	const deleteResult = deleteAllByUserId(id);
 	return new Promise(async (resolve, reject) => {
@@ -97,5 +104,6 @@ module.exports = {
 	login,
 	editUser,
 	searchByUsername,
+	getUser,
 	deleteUser,
 };
