@@ -14,15 +14,14 @@ const {
 	editUser,
 	searchByUsername,
 	deleteUser,
-	getUserSession,
+	getUser,
 } = require('./controller');
 
 const router = express.Router();
 
 router.get('', (req, res) => {
 	const username = req.query.username;
-	let limit = req.query.limit || 5;
-	let page = req.query.page || 0;
+	let page = req.query.page || 1;
 
 	if (!username)
 		return response.error(
@@ -33,14 +32,14 @@ router.get('', (req, res) => {
 			'Username filter cant be empty string'
 		);
 
-	searchByUsername(username, limit, page)
+	searchByUsername(username, page)
 		.then((data) => response.succes(req, res, 'FilterUser', 200, data))
 		.catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
-router.get('/session', validateToken, (req, res) => {
-	getUserSession(req.userId)
-		.then((data) => response.succes(req, res, 'User', 200, data))
+router.get('/:id', (req, res) => {
+	getUser(req.params.id)
+		.then((data) => response.succes(req, res, 'Get User', 200, data))
 		.catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
@@ -103,7 +102,6 @@ router.put('', validateToken, (req, res) => {
 router.delete('', validateToken, (req, res) => {
 	deleteUser(req.userId)
 		.then((data) => {
-			res.clearCookie('access-token');
 			response.succes(req, res, 'Delete user', 204, data);
 		})
 		.catch((err) => response.error(req, res, 'Error', 400, err));

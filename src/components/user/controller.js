@@ -15,18 +15,15 @@ const deleteAllByUserId = require('@services/userService');
 const { encryptPass, comparePass } = require('@utils/encrypt');
 
 const createUser = async (body) => {
-	const { username, email, password } = body;
+	const { username, email, password, name } = body;
 	const encryptedPassword = await encryptPass(password);
 	const currentDate = new Date().toISOString().slice(0, 10);
 
 	const newUser = {
 		username,
-		password: encryptedPassword,
 		email,
-		name: body.name,
-		biography: body.biography,
-		webpage: body.webpage,
-		birthday: body.birthday,
+		name,
+		password: encryptedPassword,
 		creationDate: currentDate,
 	};
 
@@ -34,21 +31,10 @@ const createUser = async (body) => {
 	const existsEmail = await checkEmail(email);
 
 	return new Promise(async (resolve, reject) => {
-		if (!existsUsername) {
-			if (!existsEmail) {
-				const { id } = await create(newUser);
-				resolve(await getUserById(id));
-			}
+		if (existsUsername) return reject('Username is already being used');
+		if (existsEmail) return reject('Email is already being used');
 
-			reject('Email is already being used');
-		}
-
-		reject('Username is already being used');
-	});
-};
-
-const getUserSession = async (id) => {
-	return new Promise(async (resolve, reject) => {
+		const { id } = await create(newUser);
 		resolve(await getUserById(id));
 	});
 };
@@ -72,33 +58,33 @@ const login = async (body) => {
 
 const editUser = async (id, body) => {
 	const { username, email } = body;
-	const newData = {
-		name: body.name,
-		biography: body.biography,
-		webpage: body.webpage,
-	};
 
 	return new Promise(async (resolve, reject) => {
 		if (username) {
-			newData.username = username;
 			const existsUsername = await checkUsername(username);
 			if (existsUsername) return reject('Username is already being used');
 		}
 
 		if (email) {
-			newData.email = email;
 			const existsEmail = await checkEmail(email);
 			if (existsEmail) return reject('Email is already being used');
 		}
 
-		await edit(id, newData);
+		await edit(id, body);
 		resolve('User has been updated');
 	});
 };
 
-const searchByUsername = async (username, limit, page) => {
+const searchByUsername = async (username, page) => {
 	return new Promise(async (resolve) => {
-		const users = await getUsersByUsername(username, limit, page);
+		const users = await getUsersByUsername(username, page);
+		resolve(users);
+	});
+};
+
+const getUser = async (userId) => {
+	return new Promise(async (resolve) => {
+		const users = await getUserById(userId);
 		resolve(users);
 	});
 };
@@ -118,5 +104,6 @@ module.exports = {
 	login,
 	editUser,
 	searchByUsername,
+	getUser,
 	deleteUser,
 };
