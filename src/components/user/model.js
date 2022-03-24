@@ -20,15 +20,12 @@ const userSchema = new Schema({
 	},
 	biography: {
 		type: String,
-		required: true,
 	},
 	webpage: {
 		type: String,
-		required: true,
 	},
 	birthday: {
 		type: Date,
-		required: true,
 	},
 	creationDate: {
 		type: Date,
