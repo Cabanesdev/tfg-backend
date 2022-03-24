@@ -1,13 +1,10 @@
 const joi = require('joi');
 
 const registerSchema = joi.object({
+	name: joi.string().required(),
+	email: joi.string().email().required(),
 	username: joi.string().min(3).required(),
 	password: joi.string().required(),
-	email: joi.string().email().required(),
-	name: joi.string().required(),
-	birthday: joi.date().iso().required(),
-	biography: joi.string().required(),
-	webpage: joi.string().required(),
 });
 
 const loginSchema = joi.object({
@@ -18,9 +15,10 @@ const loginSchema = joi.object({
 const editSchema = joi.object({
 	username: joi.string().min(3),
 	email: joi.string().email(),
-	name: joi.string().required(),
-	biography: joi.string().required(),
-	webpage: joi.string().required(),
+	name: joi.string(),
+	birthday: joi.date().iso(),
+	biography: joi.string(),
+	webpage: joi.string(),
 });
 
 module.exports = {
