@@ -10,7 +10,7 @@ const createToken = (user) => {
 };
 
 const validateToken = (req, res, next) => {
-	const token = req.headers['x-access-token'];
+	const token = req.headers['bearer-token'];
 
 	if (!token)
 		return responses.error(req, res, 'Unauthorized', 400, 'No token found');
