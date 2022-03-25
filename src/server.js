@@ -1,4 +1,4 @@
-require('module-alias/register');
+require('module-alias-jest/register');
 
 const config = require('@config');
 const express = require('express');
@@ -26,3 +26,5 @@ router(app);
 app.listen(config.port, () => {
 	console.log(`Listening in http://localhost:${config.port}`);
 });
+
+module.exports = app;
