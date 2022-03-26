@@ -4,9 +4,9 @@ const { tokenKey } = config;
 const responses = require('@responses');
 
 const createToken = (user) => {
-	const { username, id } = user;
+	const { id } = user;
 
-	return sign({ username, id }, tokenKey);
+	return sign({ id }, tokenKey);
 };
 
 const validateToken = (req, res, next) => {

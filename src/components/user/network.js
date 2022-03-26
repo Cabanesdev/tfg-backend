@@ -73,11 +73,11 @@ router.post('/login', (req, res) => {
 	login(req.body)
 		.then((data) => {
 			const token = createToken(data);
-			res.set('x-access-token', token);
+			res.set('bearer-token', token);
 			response.succes(req, res, 'Login', 200, 'Login successfully');
 		})
 		.catch((err) => {
-			response.error(req, res, 'Error', 400, err);
+			response.error(req, res, 'Error', 400, err.message);
 		});
 });
 
