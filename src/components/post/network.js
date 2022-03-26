@@ -3,7 +3,13 @@ const router = express.Router();
 
 const { createSchema, editSchema } = require('@validators/post.validator');
 const { validateToken } = require('@src/middleware/jwt');
-const { createPost, getById, getByUserId, editPost } = require('./controller');
+const {
+	createPost,
+	getById,
+	getByUserId,
+	editPost,
+	deletePost,
+} = require('./controller');
 
 const response = require('@responses');
 
@@ -79,6 +85,21 @@ router.put('/:id', validateToken, (req, res) => {
 });
 
 //Delete post
-router.delete('/:id');
+router.delete('/:id', validateToken, (req, res) => {
+	const postId = req.params.id;
+
+	if (!postId)
+		return response.error(
+			req,
+			res,
+			'Error',
+			400,
+			'Cannot delete a post without an id'
+		);
+
+	deletePost(postId, req.userId)
+		.then(() => response.succes(req, res, 'Delete Post', 204))
+		.catch((err) => response.error(req, res, 'Delete Post', 400, err));
+});
 
 module.exports = router;
