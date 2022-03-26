@@ -1,12 +1,19 @@
-const { create, getPostById } = require('./store');
+const { create, getPostById, getPostsByUserId } = require('./store');
 
-const createPost = (id, body) => {
-	const creationDate = new Date().toISOString().slice(0, 10);
+const getById = (id) =>
+	new Promise(async (resolve) => resolve(await getPostById(id)));
+
+const getByUserId = (userId, page) =>
+	new Promise(async (resolve) => resolve(await getPostsByUserId(userId, page)));
+
+const createPost = (userId, body) => {
+	const { title, content } = body;
+	const creationDate = new Date().toLocaleDateString(); // mm/dd/yyyy
 
 	const newPost = {
-		title: body.title,
-		content: body.content,
-		userId: id,
+		title,
+		content,
+		userId,
 		creationDate,
 	};
 
@@ -16,7 +23,4 @@ const createPost = (id, body) => {
 	});
 };
 
-const getPost = (id) =>
-	new Promise(async (resolve) => resolve(await getPostById(id)));
-
-module.exports = { createPost, getPost };
+module.exports = { getById, getByUserId, createPost };
