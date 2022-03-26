@@ -5,4 +5,9 @@ const createSchema = joi.object({
 	content: joi.string().required(),
 });
 
-module.exports = { createSchema };
+const editSchema = joi.object({
+	title: joi.string(),
+	content: joi.string(),
+});
+
+module.exports = { createSchema, editSchema };

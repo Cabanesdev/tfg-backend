@@ -1,4 +1,4 @@
-const { create, getPostById, getPostsByUserId } = require('./store');
+const { create, getPostById, getPostsByUserId, edit } = require('./store');
 
 const getById = (id) =>
 	new Promise(async (resolve) => resolve(await getPostById(id)));
@@ -23,4 +23,13 @@ const createPost = (userId, body) => {
 	});
 };
 
-module.exports = { getById, getByUserId, createPost };
+const editPost = (postId, userId, newData) => {
+	return new Promise(async (resolve, reject) => {
+		const { userId: postOwner } = await getPostById(postId);
+		if (userId !== postOwner) return reject('You are not allowed to do this');
+
+		resolve(edit(postId, newData));
+	});
+};
+
+module.exports = { getById, getByUserId, createPost, editPost };

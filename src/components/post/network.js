@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { createSchema } = require('@validators/post.validator');
+const { createSchema, editSchema } = require('@validators/post.validator');
 const { validateToken } = require('@src/middleware/jwt');
-const { createPost, getById, getByUserId } = require('./controller');
+const { createPost, getById, getByUserId, editPost } = require('./controller');
 
 const response = require('@responses');
 
@@ -54,6 +54,28 @@ router.post('/', validateToken, (req, res) => {
 //edit post
 router.put('/:id', validateToken, (req, res) => {
 	const postId = req.params.id;
+
+	if (!postId)
+		return response.error(
+			req,
+			res,
+			'Error',
+			400,
+			'Cannot edit a post without an id'
+		);
+
+	const newData = req.body;
+	const { error } = editSchema.validate(newData);
+
+	if (error) {
+		const { getValidationErrorMessage } = require('@utils/errorUtils');
+		const errorMessage = getValidationErrorMessage(error);
+		return response.error(req, res, 'Error', 400, errorMessage);
+	}
+
+	editPost(postId, req.userId, newData)
+		.then(() => response.succes(req, res, 'edit Post', 204))
+		.catch((err) => response.error(req, res, 'edit Post', 400, err));
 });
 
 //Delete post

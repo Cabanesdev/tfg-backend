@@ -17,4 +17,14 @@ const getPostsByUserId = async (userId, page) =>
 
 const deleteByUserId = async (userId) => await postModel.deleteMany({ userId });
 
-module.exports = { create, getPostById, getPostsByUserId, deleteByUserId };
+const edit = async (id, newData) => {
+	await postModel.findByIdAndUpdate(mongoose.Types.ObjectId(id), newData);
+};
+
+module.exports = {
+	create,
+	getPostById,
+	getPostsByUserId,
+	deleteByUserId,
+	edit,
+};
