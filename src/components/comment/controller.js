@@ -1,9 +1,9 @@
-const { create, getByPostId } = require('./store');
+const { create, getByPostsId } = require('./store');
 
 const pagination = (postId, page) => {
   return new Promise(async (resolve, reject) => {
     try {
-      resolve(await getByPostId(postId, page));
+      resolve(await getByPostsId(postId, page));
     } catch (err) {
       reject(err.message);
     }

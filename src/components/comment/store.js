@@ -1,6 +1,6 @@
 const commentModel = require('./model');
 
-const getByPostId = async (postId, page) =>
+const getByPostsId = async (postId, page) =>
   await commentModel
     .find({ postId })
     .skip((page - 1) * 10)
@@ -10,4 +10,4 @@ const create = async (data) => {
   await commentModel.create(data);
 };
 
-module.exports = { getByPostId, create };
+module.exports = { getByPostsId, create };
