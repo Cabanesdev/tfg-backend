@@ -1,4 +1,14 @@
-const { create } = require('./store');
+const { create, getByPostId } = require('./store');
+
+const pagination = (postId, page) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      resolve(await getByPostId(postId, page));
+    } catch (err) {
+      reject(err.message);
+    }
+  });
+};
 
 const createComment = (body, userId) => {
   const { content, postId } = body;
@@ -21,4 +31,4 @@ const createComment = (body, userId) => {
   });
 };
 
-module.exports = { createComment };
+module.exports = { pagination, createComment };
