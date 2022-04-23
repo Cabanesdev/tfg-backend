@@ -7,8 +7,8 @@ const {
   getUserByUsername,
   edit,
   getUsersByUsername,
-  deleteById,
-} = require('./user.store');
+  // deleteById,
+} = require('./user.repository');
 
 const { encryptPass, comparePass } = require('../../utils/encrypt');
 
@@ -32,8 +32,8 @@ const createUser = async (body) => {
     if (existsUsername) return reject('Username is already being used');
     if (existsEmail) return reject('Email is already being used');
 
-    const { id } = await create(newUser);
-    resolve(await getUserById(id));
+    await create(newUser);
+    resolve();
   });
 };
 
@@ -55,6 +55,7 @@ const login = async (body) => {
 };
 
 const editUser = async (id, body) => {
+  console.log(id)
   const { username, email } = body;
 
   return new Promise(async (resolve, reject) => {
@@ -86,16 +87,6 @@ const getUser = async (userId) => {
     resolve(users);
   });
 };
-
-// const deleteUser = async (id) => {
-// 	const deleteResult = deleteAllByUserId(id);
-// 	return new Promise(async (resolve, reject) => {
-// 		if (deleteResult.error)
-// 			return reject('An inexperienced error has occurred');
-// 		await deleteById(id);
-// 		resolve('User succesfully deleted');
-// 	});
-// };
 
 module.exports = {
   createUser,

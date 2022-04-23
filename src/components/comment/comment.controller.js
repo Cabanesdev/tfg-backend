@@ -1,9 +1,9 @@
-const { create, getByPostsId } = require('./comment.store');
+const { create, getByPostId } = require('./comment.repository');
 
 const pagination = (postId, page) => {
   return new Promise(async (resolve, reject) => {
     try {
-      resolve(await getByPostsId(postId, page));
+      resolve(await getByPostId(postId, page));
     } catch (err) {
       reject(err.message);
     }
