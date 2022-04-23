@@ -65,6 +65,7 @@ router.post('/login', (req, res) => {
 
   login(req.body)
     .then((data) => {
+      console.log(data)
       const token = createToken(data);
       res.set('bearer-token', token);
       response.succes(req, res, 'User', 200, 'Login successfully')

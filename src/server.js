@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = require('./network/routes');
-const connectMongo = require('./db');
+const {connectDB} = require('./db');
 
 const corsOptions = {
   origin: '*',
@@ -17,7 +17,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-connectMongo();
+connectDB();
 
 router(app);
 
