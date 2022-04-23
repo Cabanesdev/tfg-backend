@@ -1,6 +1,3 @@
-const mongoose = require('mongoose');
-const postModel = require('./post.model');
-
 const { ObjectId } = require('mongodb');
 const { client } = require('../../db');
 
