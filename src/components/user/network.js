@@ -6,6 +6,7 @@ const {
 	loginSchema,
 	editSchema,
 } = require('@validators/user.validator');
+
 const { createToken, validateToken } = require('@src/middleware/jwt');
 
 const {

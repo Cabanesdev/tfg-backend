@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const postModel = require('./model');
+const postModel = require('./post.model');
 
 const create = async (data) => {
 	const post = await postModel.create([data]);

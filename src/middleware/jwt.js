@@ -1,33 +1,33 @@
 const { sign, verify } = require('jsonwebtoken');
 const config = require('@config');
-const { tokenKey } = config;
 const responses = require('@responses');
+const { tokenKey } = config;
 
 const createToken = (user) => {
-	const { id } = user;
+  const { id } = user;
 
-	return sign({ id }, tokenKey);
+  return sign({ id }, tokenKey, { expiresIn: '24h' });
 };
 
 const validateToken = (req, res, next) => {
-	const token = req.headers['bearer-token'];
+  const token = req.headers['bearer-token'];
 
-	if (!token)
-		return responses.error(req, res, 'Unauthorized', 400, 'No token found');
+  if (!token)
+    return responses.error(req, res, 'Unauthorized', 401, 'No token found');
 
-	try {
-		const validToken = verify(token, tokenKey);
-		if (validToken) {
-			req.authenticated = true;
-			req.userId = validToken.id;
-			return next();
-		}
-	} catch (err) {
-		return responses.error(req, res, 'Unauthorized', 400, err);
-	}
+  try {
+    const validToken = verify(token, tokenKey);
+    if (validToken) {
+      req.authenticated = true;
+      req.userId = validToken.id;
+      return next();
+    }
+  } catch (err) {
+    return responses.error(req, res, 'Unauthorized', 400, err);
+  }
 };
 
 module.exports = {
-	createToken,
-	validateToken,
+  createToken,
+  validateToken,
 };

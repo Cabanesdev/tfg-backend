@@ -1,17 +1,18 @@
 const express = require('express');
-const router = express.Router();
+const { createSchema, editSchema } = require('../../middleware/validators');
+const { validateToken } = require('../../middleware/jwt');
+const response = require('../../network/responses');
 
-const { createSchema, editSchema } = require('@validators/post.validator');
-const { validateToken } = require('@src/middleware/jwt');
 const {
   createPost,
   getById,
   getByUserId,
   editPost,
   deletePost,
-} = require('./controller');
+} = require('./post.controller');
 
-const response = require('@responses');
+
+const router = express.Router();
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
