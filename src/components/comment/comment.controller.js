@@ -1,4 +1,4 @@
-const { create, getByPostsId } = require('./store');
+const { create, getByPostsId } = require('./comment.store');
 
 const pagination = (postId, page) => {
   return new Promise(async (resolve, reject) => {

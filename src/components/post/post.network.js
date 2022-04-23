@@ -1,6 +1,6 @@
 const express = require('express');
-const { createSchema, editSchema } = require('../../middleware/validators');
-const { validateToken } = require('../../middleware/jwt');
+const { createSchema, editSchema } = require('./post.validator');
+const { validateToken } = require('../../utils/jwt');
 const response = require('../../network/responses');
 
 const {
@@ -10,7 +10,6 @@ const {
   editPost,
   deletePost,
 } = require('./post.controller');
-
 
 const router = express.Router();
 

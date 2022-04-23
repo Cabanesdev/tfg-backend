@@ -1,6 +1,4 @@
-require('module-alias-jest/register');
-
-const config = require('@config');
+const config = require('./config/index');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -17,7 +15,7 @@ let app = express();
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 connectMongo();
 

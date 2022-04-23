@@ -1,44 +1,32 @@
 {
-	"name": "tfg-backend",
-	"version": "1.0.0",
-	"description": "",
-	"main": "src/server.js",
-	"scripts": {
-		"test": "jest"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Cabanesdev/tfg-backend.git"
-	},
-	"author": "Cabanesdev",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Cabanesdev/tfg-backend/issues"
-	},
-	"homepage": "https://github.com/Cabanesdev/tfg-backend#readme",
-	"dependencies": {
-		"bcrypt": "^5.0.1",
-		"cookie-parser": "^1.4.6",
-		"cors": "^2.8.5",
-		"dotenv": "^10.0.0",
-		"express": "^4.17.2",
-		"jest": "^27.5.1",
-		"joi": "^17.5.0",
-		"jsonwebtoken": "^8.5.1",
-		"module-alias": "^2.2.2",
-		"module-alias-jest": "^0.0.3",
-		"mongoose": "^6.1.5",
-		"supertest": "^6.2.2"
-	},
-	"_moduleAliases": {
-		"@root": ".",
-		"@src": "src",
-		"@config": "./src/config/index.js",
-		"@components": "src/components",
-		"@responses": "src/network/responses.js",
-		"@validators": "src/middleware/validators",
-		"@utils": "src/utils",
-		"@services": "src/services",
-		"@middleware": "src/middleware"
-	}
+  "name": "tfg-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cabanesdev/tfg-backend.git"
+  },
+  "author": "Cabanesdev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cabanesdev/tfg-backend/issues"
+  },
+  "homepage": "https://github.com/Cabanesdev/tfg-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "jest": "^27.5.1",
+    "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.5",
+    "supertest": "^6.2.2"
+  }
 }

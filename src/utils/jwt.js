@@ -1,6 +1,6 @@
 const { sign, verify } = require('jsonwebtoken');
-const config = require('@config');
-const responses = require('@responses');
+const config = require('../config/');
+const responses = require('../network/responses');
 const { tokenKey } = config;
 
 const createToken = (user) => {

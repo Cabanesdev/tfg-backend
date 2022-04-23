@@ -1,4 +1,4 @@
-const commentModel = require('./model');
+const commentModel = require('./comment.model');
 
 const getByPostsId = async (postId, page) =>
   await commentModel

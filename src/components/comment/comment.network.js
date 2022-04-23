@@ -1,11 +1,11 @@
 const express = require('express');
+const { validateToken } = require('../../utils/jwt');
+const { getValidationErrorMessage } = require('../../utils/errorUtils');
+const response = require('../../network/responses');
+const { createComment, pagination } = require('./comment.controller');
+const createSchema = require('./comment.validator');
+
 const router = express.Router();
-
-const createSchema = require('@validators/comment.validator');
-const { validateToken } = require('@src/middleware/jwt');
-const { createComment, pagination } = require('./controller');
-
-const response = require('@responses');
 
 router.get('/', validateToken, (req, res) => {
   const postId = req.query.postId;
@@ -29,7 +29,6 @@ router.post('/', validateToken, (req, res) => {
   const { error } = createSchema.validate(req.body);
 
   if (error) {
-    const { getValidationErrorMessage } = require('@utils/errorUtils');
     const errorMessage = getValidationErrorMessage(error);
     return response.error(req, res, 'Error', 400, errorMessage);
   }
