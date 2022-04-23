@@ -47,8 +47,8 @@ router.post('', (req, res) => {
   }
 
   createUser(req.body)
-    .then((data) => {
-      response.succes(req, res, 'User Created successfully', 200, data);
+    .then(() => {
+      response.succes(req, res, 'Create User', 200, 'User Created Succesfully');
     })
     .catch((err) => {
       response.error(req, res, 'Error', 400, err);
@@ -67,7 +67,7 @@ router.post('/login', (req, res) => {
     .then((data) => {
       const token = createToken(data);
       res.set('bearer-token', token);
-      response.succes(req, res, 'Login', 200, 'Login successfully');
+      response.succes(req, res, 'User', 200, 'Login successfully')
     })
     .catch((err) => {
       response.error(req, res, 'Error', 400, err.message);
