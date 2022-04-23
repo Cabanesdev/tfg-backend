@@ -4,7 +4,7 @@ const {
   edit,
   deleteById,
   getPostsByUserId,
-} = require('./post.store');
+} = require('./post.repository');
 
 const getById = (id) =>
   new Promise(async (resolve) => resolve(await getPostById(id)));

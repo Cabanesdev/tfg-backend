@@ -32,8 +32,6 @@ const getPasswordByUsername = async (username) =>
 
 
 const edit = async (id, data) => {
-  console.log(id)
-  console.log(data)
   await client.db()
     .collection('user')
     .updateOne({ _id: ObjectId(id) }, { $set: data });
