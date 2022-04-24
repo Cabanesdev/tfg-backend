@@ -14,13 +14,12 @@ const getByUserId = (userId, page) =>
 
 const createPost = (userId, body) => {
   const { title, content } = body;
-  const creationDate = new Date().toLocaleDateString(); // mm/dd/yyyy
-
+ 
   const newPost = {
     title,
     content,
     userId,
-    creationDate,
+    creationDate: new Date()
   };
 
   return new Promise(async (resolve) => {
