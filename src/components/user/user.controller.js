@@ -15,14 +15,13 @@ const { encryptPass, comparePass } = require('../../utils/encrypt');
 const createUser = async (body) => {
   const { username, email, password, name } = body;
   const encryptedPassword = await encryptPass(password);
-  const currentDate = new Date().toISOString().slice(0, 10);
 
   const newUser = {
     username,
     email,
     name,
     password: encryptedPassword,
-    creationDate: currentDate,
+    creationDate: new Date()
   };
 
   const existsUsername = await checkUsername(username);
