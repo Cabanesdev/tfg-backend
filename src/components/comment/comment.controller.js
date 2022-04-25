@@ -1,4 +1,5 @@
 const { create, getByPostId } = require('./comment.repository');
+const { incrementComments } = require('../post/post.repository');
 
 const pagination = (postId, page) => {
   return new Promise(async (resolve, reject) => {
@@ -24,6 +25,7 @@ const createComment = (body, userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       await create(data);
+      await incrementComments(postId)
       resolve('Comment Created Succesfully');
     } catch (err) {
       reject(err.message);

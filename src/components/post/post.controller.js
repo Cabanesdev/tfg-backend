@@ -19,7 +19,8 @@ const createPost = (userId, body) => {
     title,
     content,
     userId,
-    creationDate: new Date()
+    creationDate: new Date(),
+    comments: 0
   };
 
   return new Promise(async (resolve) => {

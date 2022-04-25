@@ -19,11 +19,12 @@ const getPostsByUserId = async (userId, page) => {
 
   if (userId) findOptions.userId = userId
 
- return await client
+  return await client
     .db()
     .collection('post')
     .find(findOptions)
     .skip((page - 1) * 6)
+    .sort({creationDate: -1})
     .limit(6)
     .toArray();
 
@@ -32,19 +33,26 @@ const getPostsByUserId = async (userId, page) => {
 const edit = async (id, data) => {
   await client
     .db()
-    .collection('news')
+    .collection('post')
     .updateOne({ _id: ObjectId(id) }, { $set: data });
+};
 
+
+const incrementComments = async (id) => {
+  await client
+    .db()
+    .collection('post')
+    .updateOne({ _id: ObjectId(id) }, { $inc: { comments: +1 } });
 };
 
 const deleteById = async (id) => {
   await client
     .db()
-    .collection('news')
+    .collection('post')
     .deleteOne({ _id: ObjectId(id) })
 };
 
-const deleteByUserId = async (userId) => await postModel.deleteMany({ userId });
+
 
 module.exports = {
   create,
@@ -52,5 +60,5 @@ module.exports = {
   getPostsByUserId,
   edit,
   deleteById,
-  deleteByUserId,
+  incrementComments
 };
