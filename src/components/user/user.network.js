@@ -32,6 +32,12 @@ router.get('', (req, res) => {
     .catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
+router.get('/session', validateToken, (req, res) => {
+  getUser(req.userId)
+    .then((data) => response.succes(req, res, 'Get User', 200, data))
+    .catch((err) => response.error(req, res, 'Error', 400, err));
+});
+
 router.get('/:id', (req, res) => {
   getUser(req.params.id)
     .then((data) => response.succes(req, res, 'Get User', 200, data))
@@ -65,7 +71,6 @@ router.post('/login', (req, res) => {
 
   login(req.body)
     .then((data) => {
-      console.log(data)
       const token = createToken(data);
       res.set('bearer-token', token);
       response.succes(req, res, 'User', 200, 'Login successfully')

@@ -11,14 +11,12 @@ const createToken = (user) => {
 
 const validateToken = (req, res, next) => {
   const token = req.headers['bearer-token'];
-  console.log(token)
 
   if (!token)
     return responses.error(req, res, 'Unauthorized', 401, 'No token found');
 
   try {
     const validToken = verify(token, tokenKey);
-    console.log(validToken)
     if (validToken) {
       req.authenticated = true;
       req.userId = validToken.id;

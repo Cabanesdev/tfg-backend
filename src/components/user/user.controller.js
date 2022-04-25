@@ -54,7 +54,6 @@ const login = async (body) => {
 };
 
 const editUser = async (id, body) => {
-  console.log(id)
   const { username, email } = body;
 
   return new Promise(async (resolve, reject) => {

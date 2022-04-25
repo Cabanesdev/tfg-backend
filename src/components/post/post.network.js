@@ -32,9 +32,6 @@ router.get('/:id', (req, res) => {
 
 router.get('/', validateToken, (req, res) => {
   const userId = req.query.userId;
-
-  if (!userId)
-    return response.error(req, res, 'Error', 400, 'User Id can not be empty');
   const page = req.query.page | 1;
 
   getByUserId(userId, page)
