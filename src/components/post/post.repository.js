@@ -14,14 +14,20 @@ const getPostById = async (id) =>
     .collection('post')
     .findOne({ _id: ObjectId(id) });
 
-const getPostsByUserId = async (userId, page) =>
-  await client
+const getPostsByUserId = async (userId, page) => {
+  const findOptions = {}
+
+  if (userId) findOptions.userId = userId
+
+ return await client
     .db()
-    .collection('post') 
-    .find({ userId })
-    .skip((page - 1) * 10)
-    .limit(10)
+    .collection('post')
+    .find(findOptions)
+    .skip((page - 1) * 6)
+    .limit(6)
     .toArray();
+
+}
 
 const edit = async (id, data) => {
   await client

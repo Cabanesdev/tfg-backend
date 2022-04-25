@@ -1,5 +1,6 @@
 const express = require('express');
 const { createSchema, editSchema } = require('./post.validator');
+const { getValidationErrorMessage } = require('../../utils/errorUtils');
 const { validateToken } = require('../../utils/jwt');
 const response = require('../../network/responses');
 
@@ -43,7 +44,6 @@ router.post('/', validateToken, (req, res) => {
   const { error } = createSchema.validate(req.body);
 
   if (error) {
-    const { getValidationErrorMessage } = require('@utils/errorUtils');
     const errorMessage = getValidationErrorMessage(error);
     return response.error(req, res, 'Error', 400, errorMessage);
   }
@@ -69,7 +69,6 @@ router.put('/:id', validateToken, (req, res) => {
   const { error } = editSchema.validate(newData);
 
   if (error) {
-    const { getValidationErrorMessage } = require('@utils/errorUtils');
     const errorMessage = getValidationErrorMessage(error);
     return response.error(req, res, 'Error', 400, errorMessage);
   }
