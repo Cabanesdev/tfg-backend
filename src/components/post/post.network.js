@@ -30,9 +30,9 @@ router.get('/:id', (req, res) => {
     .catch((err) => response.error(req, res, 'Error', 400, err));
 });
 
-router.get('/', validateToken, (req, res) => {
+router.get('/', (req, res) => {
   const userId = req.query.userId;
-  const page = req.query.page | 1;
+  const page = req.query.page || 1;
 
   getByUserId(userId, page)
     .then((data) => response.succes(req, res, 'Get Post by User', 200, data))

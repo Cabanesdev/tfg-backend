@@ -7,9 +7,9 @@ const createSchema = require('./comment.validator');
 
 const router = express.Router();
 
-router.get('/', validateToken, (req, res) => {
+router.get('/', (req, res) => {
   const postId = req.query.postId;
-  const page = req.query.page | 1;
+  const page = req.query.page || 1;
 
   if (!postId)
     return response.error(
