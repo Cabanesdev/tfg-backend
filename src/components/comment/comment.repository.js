@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const { client } = require('../../db');
 
 const getByPostId = async (postId, page) =>
@@ -6,6 +5,7 @@ const getByPostId = async (postId, page) =>
     .db()
     .collection('comment')
     .find({ postId })
+    .sort({ creationDate: -1 })
     .skip((page - 1) * 10)
     .limit(10)
     .toArray();

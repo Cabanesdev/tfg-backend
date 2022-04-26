@@ -13,13 +13,12 @@ const pagination = (postId, page) => {
 
 const createComment = (body, userId) => {
   const { content, postId } = body;
-  const creationDate = new Date().toLocaleDateString();
 
   const data = {
     content,
     postId,
     userId,
-    creationDate,
+    creationDate: new Date(),
   };
 
   return new Promise(async (resolve, reject) => {
