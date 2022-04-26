@@ -26,6 +26,15 @@ router.get('/:id', (req, res) => {
       'Cannot retrieve a post without an id'
     );
 
+  if (id.length !== 24)
+    return response.error(
+      req,
+      res,
+      'Error',
+      400,
+      'Id format wrong'
+    );
+
   getById(id)
     .then((data) => response.succes(req, res, 'Get Post', 200, data))
     .catch((err) => response.error(req, res, 'Error', 400, err));

@@ -39,6 +39,16 @@ router.get('/session', validateToken, (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+
+  if (req.params.id.length !==24 )
+    return response.error(
+      req,
+      res,
+      'Error',
+      400,
+      'Id Format wrong'
+    );
+
   getUser(req.params.id)
     .then((data) => response.succes(req, res, 'Get User', 200, data))
     .catch((err) => response.error(req, res, 'Error', 400, err));
