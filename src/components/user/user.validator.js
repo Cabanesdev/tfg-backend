@@ -16,7 +16,6 @@ const editSchema = joi.object({
   username: joi.string().min(3),
   email: joi.string().email(),
   name: joi.string(),
-  birthday: joi.date().iso(),
   biography: joi.string(),
   webpage: joi.string(),
 });
