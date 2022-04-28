@@ -1,0 +1,5 @@
+{
+  "jwt": {
+    "key": "token_key"
+  }
+}

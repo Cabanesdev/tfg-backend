@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const config = require('./config/index');
 
-const client = new MongoClient(config.url);
+const client = new MongoClient(config.uri);
 
 async function connectDB() {
   try {
