@@ -6,7 +6,7 @@ const create = async (data) => {
     .db()
     .collection('post')
     .insertOne(data);
-};
+}
 
 const getPostById = async (id) =>
   await client
@@ -35,22 +35,21 @@ const edit = async (id, data) => {
     .db()
     .collection('post')
     .updateOne({ _id: ObjectId(id) }, { $set: data });
-};
-
+}
 
 const incrementComments = async (id) => {
   await client
     .db()
     .collection('post')
     .updateOne({ _id: ObjectId(id) }, { $inc: { comments: +1 } });
-};
+}
 
 const deleteById = async (id) => {
   await client
     .db()
     .collection('post')
     .deleteOne({ _id: ObjectId(id) })
-};
+}
 
 
 

@@ -24,7 +24,6 @@ const getUsersByUsername = async (username, page) =>
     .limit(15)
     .toArray();
 
-
 const getPasswordByUsername = async (username) =>
   await client.db()
     .collection('user')

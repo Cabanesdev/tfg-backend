@@ -1,6 +1,6 @@
 const { client } = require('../../db');
 
-const getByPostId = async (postId, page) =>
+const getComments = async (postId, page) =>
   await client
     .db()
     .collection('comment')
@@ -17,4 +17,4 @@ const create = async (data) => {
     .insertOne(data)
 };
 
-module.exports = { getByPostId, create };
+module.exports = { getComments, create };

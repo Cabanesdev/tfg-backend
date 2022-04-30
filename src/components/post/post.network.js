@@ -14,94 +14,85 @@ const {
 
 const router = express.Router();
 
-router.get('/:id', (req, res) => {
-  const id = req.params.id;
+router.get('/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
 
-  if (!id)
-    return response.error(
-      req,
-      res,
-      'Error',
-      400,
-      'Cannot retrieve a post without an id'
-    );
+    if (!id)
+      throw new Error('Cannot retrieve a post without an id');
 
-  if (id.length !== 24)
-    return response.error(
-      req,
-      res,
-      'Error',
-      400,
-      'Id format wrong'
-    );
+    if (id.length !== 24)
+      throw new Error('Id format wrong');
 
-  getById(id)
-    .then((data) => response.succes(req, res, 'Get Post', 200, data))
-    .catch((err) => response.error(req, res, 'Error', 400, err));
-});
+    const post = await getById(id);
+    response.succes(req, res, 'Get Post', 200, post);
 
-router.get('/', (req, res) => {
-  const userId = req.query.userId;
-  const page = req.query.page || 1;
-
-  getByUserId(userId, page)
-    .then((data) => response.succes(req, res, 'Get Post by User', 200, data))
-    .catch((err) => response.error(req, res, 'Error', 400, err));
-});
-
-router.post('/', validateToken, (req, res) => {
-  const { error } = createSchema.validate(req.body);
-
-  if (error) {
-    const errorMessage = getValidationErrorMessage(error);
-    return response.error(req, res, 'Error', 400, errorMessage);
+  } catch (err) {
+    response.error(req, res, 'Error', 400, err.message);
   }
-
-  createPost(req.userId, req.body)
-    .then((data) => response.succes(req, res, 'Create Post', 200, data))
-    .catch((err) => response.error(req, res, 'Error', 200, err));
 });
 
-router.put('/:id', validateToken, (req, res) => {
-  const postId = req.params.id;
+router.get('/', async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const page = req.query.page || 1;
 
-  if (!postId)
-    return response.error(
-      req,
-      res,
-      'Error',
-      400,
-      'Cannot edit a post without an id'
-    );
-
-  const newData = req.body;
-  const { error } = editSchema.validate(newData);
-
-  if (error) {
-    const errorMessage = getValidationErrorMessage(error);
-    return response.error(req, res, 'Error', 400, errorMessage);
+    const posts = await getByUserId(userId, page);
+    response.succes(req, res, 'Get Posts', 200, posts);
+  } catch (err) {
+    response.error(req, res, 'Error', 400, err.message);
   }
-
-  editPost(postId, req.userId, newData)
-    .then(() => response.succes(req, res, 'edit Post', 204))
-    .catch((err) => response.error(req, res, 'edit Post', 400, err));
 });
 
-router.delete('/:id', validateToken, (req, res) => {
-  const postId = req.params.id;
+router.post('/', validateToken, async (req, res) => {
+  try {
+    const { error } = createSchema.validate(req.body);
+    if (error) {
+      const errorMessage = getValidationErrorMessage(error);
+      throw new Error(errorMessage);
+    }
+    await createPost(req.userId, req.body);
+    response.succes(req, res, 'Create Post', 200, data);
+  } catch (err) {
+    response.error(req, res, 'Error', 200, err.message);
+  }
+});
 
-  if (!postId)
-    return response.error(
-      req,
-      res,
-      'Error',
-      400,
-      'Cannot delete a post without an id'
-    );
+router.put('/:id', validateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
 
-  deletePost(postId, req.userId)
-    .then(() => response.succes(req, res, 'Delete Post', 204))
-    .catch((err) => response.error(req, res, 'Delete Post', 400, err));
+    if (!postId)
+      throw new Error('Cannot edit a post without an id');
+
+    const newData = req.body;
+    const { error } = editSchema.validate(newData);
+
+    if (error) {
+      const errorMessage = getValidationErrorMessage(error);
+      throw new Error(errorMessage);
+    }
+
+    await editPost(postId, req.userId, newData)
+    response.succes(req, res, 'edit Post', 204);
+  } catch (err) {
+    response.error(req, res, 'edit Post', 400, err.message);
+  }
+});
+
+router.delete('/:id', validateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    if (!postId)
+      throw new Error('Cannot delete a post without an id');
+
+    await deletePost(postId, req.userId);
+    response.succes(req, res, 'Delete Post', 204)
+
+  } catch (err) {
+    response.error(req, res, 'Delete Post', 400, err.message);
+  }
 });
 
 module.exports = router;
