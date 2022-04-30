@@ -54,7 +54,7 @@ router.post('/', validateToken, async (req, res) => {
     await createPost(req.userId, req.body);
     response.succes(req, res, 'Create Post', 200, data);
   } catch (err) {
-    response.error(req, res, 'Error', 200, err.message);
+    response.error(req, res, 'Error', 400, err.message);
   }
 });
 
