@@ -6,7 +6,7 @@ const { tokenKey } = config;
 const createToken = (user) => {
   const { _id: id } = user;
 
-  return sign({ id }, tokenKey, { expiresIn: '24h' });
+  return sign({ id }, tokenKey);
 };
 
 const validateToken = (req, res, next) => {
