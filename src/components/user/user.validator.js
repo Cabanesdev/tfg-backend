@@ -13,11 +13,13 @@ const loginSchema = joi.object({
 });
 
 const editSchema = joi.object({
+  name: joi.string(),
   username: joi.string().min(3),
   email: joi.string().email(),
-  name: joi.string(),
-  biography: joi.string(),
-  webpage: joi.string(),
+  biography: joi.string().empty(''),
+  webpage: joi.string().uri().empty(''),
+  github: joi.string().uri().empty(''),
+  linkedin: joi.string().uri().empty('')
 });
 
 module.exports = {
