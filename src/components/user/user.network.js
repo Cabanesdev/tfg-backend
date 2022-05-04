@@ -58,7 +58,7 @@ router.post('', async (req, res) => {
 
     if (error) {
       const errorMessage = getValidationErrorMessage(error);
-      return response.error(req, res, 'Error', 400, errorMessage);
+      throw new Error(errorMessage);
     }
     await createUser(req.body)
     response.succes(req, res, 'Create User', 200, 'User Created Succesfully');
