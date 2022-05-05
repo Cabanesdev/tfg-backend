@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { client } = require('../../db');
 
 const create = async (commitData) => {
@@ -32,4 +33,12 @@ const getAllByCommitId = async (commitId, page) =>
     .limit(10)
     .toArray();
 
-module.exports = { create, getAll, getAllByCommitId }
+const incrementCommitsNumbers = async (commitId) => {
+  await client
+    .db()
+    .collection('commit')
+    .updateOne({ _id: ObjectId(commitId) }, { $inc: { commitNumber: +1 } });
+}
+
+
+module.exports = { create, getAll, getAllByCommitId, incrementCommitsNumbers }

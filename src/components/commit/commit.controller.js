@@ -1,4 +1,4 @@
-const { create, getAll, getAllByCommitId } = require('./commit.repository')
+const { create, getAll, getAllByCommitId, incrementCommitsNumbers } = require('./commit.repository')
 
 const createCommit = async (body, userId) => {
   try {
@@ -8,10 +8,12 @@ const createCommit = async (body, userId) => {
       content,
       userId,
       creationDate: new Date(),
+      // commitsNumber: 0
     }
 
     if (commitId) commitData.commitId = commitId
     await create(commitData);
+    await incrementCommitsNumbers(commitId);
 
   } catch (err) {
     throw new Error(err.message);
