@@ -23,7 +23,7 @@ const validateToken = (req, res, next) => {
       return next();
     }
   } catch (err) {
-    return responses.error(req, res, 'Unauthorized', 400, err);
+    return responses.error(req, res, 'Unauthorized', 401, err);
   }
 };
 

@@ -4,7 +4,7 @@ const { validateToken } = require('../../utils/jwt');
 const { getValidationErrorMessage } = require('../../utils/errorUtils');
 
 const registerSchema = require('./commit.validator');
-const { createCommit } = require('./commit.controller');
+const { createCommit, getAllCommits, getAllCommitsByCommitId } = require('./commit.controller');
 
 const router = express.Router();
 
@@ -20,6 +20,26 @@ router.post('/', validateToken, async (req, res) => {
     await createCommit(req.body, req.userId);
 
     response.error(req, res, 'Post Commit', 200, req.body);
+  } catch (err) {
+    response.error(req, res, 'Error', 400, err.message);
+  }
+})
+
+router.get('', async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const commitId = req.query.commitId;
+    const page = req.query.page || 1;
+    let commits;
+
+    if (userId) {
+      commits = await getAllCommits(userId, page);
+    } else {
+      commits = await getAllCommitsByCommitId(commitId, page);
+    }
+
+    response.succes(req, res, 'Get Posts', 200, commits);
+
   } catch (err) {
     response.error(req, res, 'Error', 400, err.message);
   }

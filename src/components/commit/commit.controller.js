@@ -1,4 +1,5 @@
-const {create} = require('./commit.repository') 
+const { create, getAll, getAllByCommitId } = require('./commit.repository')
+
 const createCommit = async (body, userId) => {
   try {
     const { content, commitId } = body;
@@ -17,4 +18,24 @@ const createCommit = async (body, userId) => {
   }
 }
 
-module.exports = { createCommit }
+const getAllCommits = async (userId, page) => {
+  try {
+    const commits = await getAll(userId, page)
+    return commits;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+
+const getAllCommitsByCommitId = async (commitId, page) => {
+  try {
+    const commits = await getAllByCommitId(commitId, page)
+    return commits;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+
+}
+
+module.exports = { createCommit, getAllCommits, getAllCommitsByCommitId }
