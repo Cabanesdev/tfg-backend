@@ -49,7 +49,7 @@ router.delete('/:id', validateToken, async (req, res) => {
   try {
     const { id: commitId } = req.params
     await removeCommit(req.userId, commitId);
-    response.succes(req, res, 'Delete Commit', 204, commits);
+    response.succes(req, res, 'Delete Commit', 204, '');
   } catch (err) {
     response.error(req, res, 'Error', 400, err.message);
   }

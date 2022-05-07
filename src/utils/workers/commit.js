@@ -1,7 +1,11 @@
-const { getAllByCommitId, removeCommit } = require('../components/commit/commit.repository')
+const workerpool = require('workerpool');
+const { getAllByCommitId, removeCommit } = require('../../components/commit/commit.repository');
+const { client } = require('../../db');
 
-const checkIfCommitHasMoreCommits = async (commitId) => {
+const deleteCommits = async (commitId) => {
+  client.connect()
   const commits = await getAllByCommitId(commitId);
+  console.log(commits)
   if (!commits.length) {
     await removeCommit(commitId)
   } else {
@@ -13,4 +17,6 @@ const checkIfCommitHasMoreCommits = async (commitId) => {
   }
 }
 
-module.exports = checkIfCommitHasMoreCommits;
+workerpool.worker({
+  deleteCommits,
+});

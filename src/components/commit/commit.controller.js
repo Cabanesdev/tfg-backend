@@ -1,5 +1,6 @@
+const workerpool = require('workerpool');
+const config = require('../../config/index');
 const { create, getAll, incrementCommitsNumbers, getById, getAllByCommitIdWithPagination } = require('./commit.repository');
-const checkIfCommitHasMoreCommits = require('../../utils/commits');
 
 const createCommit = async (body, userId) => {
   try {
@@ -41,9 +42,14 @@ const getAllCommitsByCommitId = async (commitId, page) => {
 
 const removeCommit = async (userId, commitId) => {
   try {
-    const commit = await getById(commitId)
-    if (commit.userId !== userId) throw new Error('You are not allowed to do this')   
-    await checkIfCommitHasMoreCommits(commit._id.toString())
+    const pool = workerpool.pool(`${__dirname}/../../utils/workers/commit.js`, {
+      maxWorkers: config.threads,
+    });
+
+    const commit = await getById(commitId);
+    if (commit.userId !== userId) throw new Error('You are not allowed to do this');
+
+    await pool.exec('deleteCommits', [commit._id.toString()]);
 
   } catch (err) {
     throw new Error(err.message);
