@@ -4,7 +4,7 @@ const { validateToken } = require('../../utils/jwt');
 const { getValidationErrorMessage } = require('../../utils/errorUtils');
 
 const registerSchema = require('./commit.validator');
-const { createCommit, getAllCommits, getAllCommitsByCommitId } = require('./commit.controller');
+const { createCommit, getAllCommits, getAllCommitsByCommitId, removeCommit } = require('./commit.controller');
 
 const router = express.Router();
 
@@ -43,6 +43,17 @@ router.get('', async (req, res) => {
   } catch (err) {
     response.error(req, res, 'Error', 400, err.message);
   }
+})
+
+router.delete('/:id', validateToken, async (req, res) => {
+  try {
+    const { id: commitId } = req.params
+    await removeCommit(req.userId, commitId);
+    response.succes(req, res, 'Delete Commit', 204, commits);
+  } catch (err) {
+    response.error(req, res, 'Error', 400, err.message);
+  }
+
 })
 
 module.exports = router

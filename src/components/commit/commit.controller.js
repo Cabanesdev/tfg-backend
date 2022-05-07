@@ -1,4 +1,5 @@
-const { create, getAll, getAllByCommitId, incrementCommitsNumbers } = require('./commit.repository')
+const { create, getAll, incrementCommitsNumbers, getById, getAllByCommitIdWithPagination } = require('./commit.repository');
+const checkIfCommitHasMoreCommits = require('../../utils/commits');
 
 const createCommit = async (body, userId) => {
   try {
@@ -8,7 +9,6 @@ const createCommit = async (body, userId) => {
       content,
       userId,
       creationDate: new Date(),
-      // commitsNumber: 0
     }
 
     if (commitId) commitData.commitId = commitId
@@ -32,12 +32,22 @@ const getAllCommits = async (userId, page) => {
 
 const getAllCommitsByCommitId = async (commitId, page) => {
   try {
-    const commits = await getAllByCommitId(commitId, page)
+    const commits = await getAllByCommitIdWithPagination(commitId, page)
     return commits;
   } catch (err) {
     throw new Error(err.message);
   }
-
 }
 
-module.exports = { createCommit, getAllCommits, getAllCommitsByCommitId }
+const removeCommit = async (userId, commitId) => {
+  try {
+    const commit = await getById(commitId)
+    if (commit.userId !== userId) throw new Error('You are not allowed to do this')   
+    await checkIfCommitHasMoreCommits(commit._id.toString())
+
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+module.exports = { createCommit, getAllCommits, getAllCommitsByCommitId, removeCommit }
