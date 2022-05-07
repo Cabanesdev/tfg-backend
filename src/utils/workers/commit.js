@@ -5,7 +5,6 @@ const { client } = require('../../db');
 const deleteCommits = async (commitId) => {
   client.connect()
   const commits = await getAllByCommitId(commitId);
-  console.log(commits)
   if (!commits.length) {
     await removeCommit(commitId)
   } else {
