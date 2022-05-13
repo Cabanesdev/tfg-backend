@@ -6,8 +6,8 @@ const createSchema = joi.object({
 });
 
 const editSchema = joi.object({
-  title: joi.string(),
-  content: joi.string(),
+  title: joi.string().required().empty(),
+  content: joi.string().required().empty(),
 });
 
 module.exports = { createSchema, editSchema };

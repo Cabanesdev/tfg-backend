@@ -11,6 +11,7 @@ const {
   editPost,
   deletePost,
 } = require('./post.controller');
+const { getPostsByTitle } = require('./post.repository');
 
 const router = express.Router();
 
@@ -34,10 +35,13 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const userId = req.query.userId;
-    const page = req.query.page || 1;
-
-    const posts = await getByUserId(userId, page);
+    const { title, userId, page = 1 } = req.query
+    let posts
+    if (title) {
+      posts = await getPostsByTitle(title, page);
+    } else {
+      posts = await getByUserId(userId, page);
+    }
     response.succes(req, res, 'Get Posts', 200, posts);
   } catch (err) {
     response.error(req, res, 'Error', 400, err.message);

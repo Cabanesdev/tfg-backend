@@ -9,9 +9,7 @@ const create = async (commitData) => {
 }
 
 const getAll = async (userId, page) => {
-  const findOptions = {
-    deleted: { $exists: false },
-  }
+  const findOptions = {}
 
   if (userId) findOptions.userId = userId
 
@@ -66,7 +64,7 @@ const removeCommit = async (id) => {
   await client
     .db()
     .collection('commit')
-    .updateOne({ _id: ObjectId(id) }, { $set: { deleted: true } });
+    .findOneAndDelete({ _id: ObjectId(id) });
 }
 
 

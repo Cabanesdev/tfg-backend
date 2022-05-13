@@ -4,7 +4,10 @@ const {
   edit,
   deleteById,
   getPostsByUserId,
+  getPostsByTitle,
 } = require('./post.repository');
+
+const { deleteComments } = require('../comment/comment.repository');
 
 const getById = async (id) => {
   try {
@@ -15,11 +18,21 @@ const getById = async (id) => {
   }
 }
 
-const getByUserId = async (userId, page) => {
+const getByUserId = async (postId, userId, page) => {
   try {
-    const posts = await getPostsByUserId(userId, page);
+    const posts = await getPostsByUserId(postId, userId, page);
     return posts;
   } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+const getByTitleQuery = async (title, page) => {
+  try {
+    const posts = await getPostsByTitle(title, page);
+    return posts
+  }
+  catch (err) {
     throw new Error(err.message);
   }
 }
@@ -57,10 +70,11 @@ const deletePost = async (postId, userId) => {
     const { userId: postOwner } = await getPostById(postId);
     if (userId !== postOwner) throw new Error('You are not allowed to do this');
 
+    await deleteComments(postId)
     await deleteById(postId);
   } catch (err) {
     throw new Error(err.message);
   }
 }
 
-module.exports = { getById, getByUserId, createPost, editPost, deletePost };
+module.exports = { getById, getByUserId, createPost, editPost, deletePost, getByTitleQuery };
