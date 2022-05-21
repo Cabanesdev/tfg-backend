@@ -4,7 +4,7 @@ const { validateToken } = require('../../utils/jwt');
 const { getValidationErrorMessage } = require('../../utils/errorUtils');
 
 const registerSchema = require('./commit.validator');
-const { createCommit, getAllCommits, getAllCommitsByCommitId, removeCommit } = require('./commit.controller');
+const { createCommit, getAllCommits, getAllCommitsByCommitId, removeCommit, getOneById } = require('./commit.controller');
 
 const router = express.Router();
 
@@ -32,13 +32,25 @@ router.get('', async (req, res) => {
     const page = req.query.page || 1;
     let commits;
 
-    if (userId) {
-      commits = await getAllCommits(userId, page);
-    } else {
+    if (commitId) {
       commits = await getAllCommitsByCommitId(commitId, page);
+    } else {
+      commits = await getAllCommits(userId, page);
     }
 
     response.succes(req, res, 'Get Posts', 200, commits);
+
+  } catch (err) {
+    response.error(req, res, 'Error', 400, err.message);
+  }
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const { id: commitId } = req.params;
+    const data = await getOneById(commitId);
+
+    response.succes(req, res, 'Get Posts', 200, data);
 
   } catch (err) {
     response.error(req, res, 'Error', 400, err.message);

@@ -1,6 +1,6 @@
 const workerpool = require('workerpool');
 const config = require('../../config/index');
-const { create, getAll, incrementCommitsNumbers, getById, getAllByCommitIdWithPagination } = require('./commit.repository');
+const { create, getAll, incrementCommitsNumbers, getById, getAllByCommitIdWithPagination, getOne } = require('./commit.repository');
 
 const createCommit = async (body, userId) => {
   try {
@@ -10,12 +10,22 @@ const createCommit = async (body, userId) => {
       content,
       userId,
       creationDate: new Date(),
+      commitNumber: 0
     }
 
     if (commitId) commitData.commitId = commitId
     await create(commitData);
     await incrementCommitsNumbers(commitId);
 
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+const getOneById = async (commitId) => {
+  try {
+    const commit = await getOne(commitId);
+    return commit
   } catch (err) {
     throw new Error(err.message);
   }
@@ -29,7 +39,6 @@ const getAllCommits = async (userId, page) => {
     throw new Error(err.message);
   }
 }
-
 
 const getAllCommitsByCommitId = async (commitId, page) => {
   try {
@@ -56,4 +65,4 @@ const removeCommit = async (userId, commitId) => {
   }
 }
 
-module.exports = { createCommit, getAllCommits, getAllCommitsByCommitId, removeCommit }
+module.exports = { createCommit, getAllCommits, getAllCommitsByCommitId, removeCommit, getOneById }

@@ -8,8 +8,16 @@ const create = async (commitData) => {
     .insertOne(commitData)
 }
 
+const getOne = async (commitId) =>
+  await client
+    .db()
+    .collection('commit')
+    .findOne({ _id: ObjectId(commitId) })
+
 const getAll = async (userId, page) => {
-  const findOptions = {}
+  const findOptions = {
+    deleted: { $exists: false },
+  }
 
   if (userId) findOptions.userId = userId
 
@@ -29,7 +37,7 @@ const getAllByCommitIdWithPagination = async (commitId, page) => {
     deleted: { $exists: false },
   };
 
-  await client
+  return await client
     .db()
     .collection('commit')
     .find(findOptions)
@@ -54,6 +62,13 @@ const incrementCommitsNumbers = async (commitId) => {
     .updateOne({ _id: ObjectId(commitId) }, { $inc: { commitNumber: +1 } });
 }
 
+const decreaseCommitsNumber = async (commitId) => {
+  await client
+    .db()
+    .collection('commit')
+    .updateOne({ _id: ObjectId(commitId) }, { $inc: { commitNumber: -1 } });
+}
+
 const getById = async (commitId) =>
   await client
     .db()
@@ -68,4 +83,4 @@ const removeCommit = async (id) => {
 }
 
 
-module.exports = { create, getAll, getAllByCommitIdWithPagination, getAllByCommitId, incrementCommitsNumbers, getById, removeCommit }
+module.exports = { create, getAll, getAllByCommitIdWithPagination, getAllByCommitId, incrementCommitsNumbers, getById, removeCommit, getOne, decreaseCommitsNumber }
