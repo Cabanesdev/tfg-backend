@@ -23,6 +23,7 @@ if (NODE_ENV === 'test') {
 const config = {
   port: PORT || 3000,
   tokenKey: TOKEN_KEY || conf.jwt.key,
+  threads: conf.threads || 6,
   uri: conf.uri,
 };
 

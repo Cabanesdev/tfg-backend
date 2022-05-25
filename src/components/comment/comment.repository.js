@@ -17,4 +17,11 @@ const create = async (data) => {
     .insertOne(data)
 };
 
-module.exports = { getComments, create };
+const deleteComments = async (postId) => {
+  await client
+    .db()
+    .collection('comment')
+    .deleteMany({postId})
+};
+
+module.exports = { getComments, create, deleteComments };

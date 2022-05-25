@@ -24,10 +24,24 @@ const getPostsByUserId = async (userId, page) => {
     .collection('post')
     .find(findOptions)
     .skip((page - 1) * 10)
-    .sort({creationDate: -1})
+    .sort({ creationDate: -1 })
     .limit(10)
     .toArray();
+}
 
+const getPostsByTitle = async (titleQuery, page) => {
+  const findOptions = {
+    title: { $regex:  titleQuery }
+  }
+
+  return await client
+    .db()
+    .collection('post')
+    .find(findOptions)
+    .skip((page - 1) * 10)
+    .sort({ creationDate: -1 })
+    .limit(10)
+    .toArray();
 }
 
 const edit = async (id, data) => {
@@ -59,5 +73,6 @@ module.exports = {
   getPostsByUserId,
   edit,
   deleteById,
-  incrementComments
+  incrementComments,
+  getPostsByTitle
 };
