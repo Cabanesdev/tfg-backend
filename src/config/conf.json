@@ -1,0 +1,6 @@
+{
+  "jwt": {
+    "key": "token_key"
+  },
+  "threads": 10
+}
