@@ -11,12 +11,19 @@ if (fs.existsSync(path.resolve(__dirname, './conf.local.json'))) {
   conf = Object.assign(conf, localConf);
 }
 
+if (NODE_ENV === 'production') {
+  const prodConf = require('./conf.prod.json');
+  conf = Object.assign(conf, prodConf);
+}
+
+if (NODE_ENV === 'development') {
+  const devConf = require('./conf.dev.json');
+  conf = Object.assign(conf, devConf);
+}
+
 if (NODE_ENV === 'test') {
   const testConf = require('./conf.test.json');
   conf = Object.assign(conf, testConf);
-} else {
-  const devConf = require('./conf.dev.json');
-  conf = Object.assign(conf, devConf);
 }
 
 

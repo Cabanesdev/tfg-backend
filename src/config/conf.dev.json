@@ -1,3 +1,3 @@
 {
-  "uri": "mongodb://localhost:27017/codex-dev"
+  "uri": "mongodb://mongodb:27017/codex-dev"
 }
