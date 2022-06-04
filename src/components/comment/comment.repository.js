@@ -1,14 +1,21 @@
 const { client } = require('../../db');
 
-const getComments = async (postId, page) =>
-  await client
+const getComments = async (postId, page) => {
+  const findOptions = {
+    postId,
+    deleted: { $exists: false },
+  }
+
+ return await client
     .db()
     .collection('comment')
-    .find({ postId })
+    .find(findOptions)
     .sort({ creationDate: -1 })
     .skip((page - 1) * 10)
     .limit(10)
     .toArray();
+}
+
 
 const create = async (data) => {
   await client
@@ -21,7 +28,7 @@ const deleteComments = async (postId) => {
   await client
     .db()
     .collection('comment')
-    .deleteMany({postId})
+    .updateMany({ postId }, { $set: { deleted: true } });
 };
 
 module.exports = { getComments, create, deleteComments };

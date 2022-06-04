@@ -15,7 +15,9 @@ const getPostById = async (id) =>
     .findOne({ _id: ObjectId(id) });
 
 const getPostsByUserId = async (userId, page) => {
-  const findOptions = {}
+  const findOptions = {
+    deleted: { $exists: false },
+  }
 
   if (userId) findOptions.userId = userId
 
@@ -31,7 +33,8 @@ const getPostsByUserId = async (userId, page) => {
 
 const getPostsByTitle = async (titleQuery, page) => {
   const findOptions = {
-    title: { $regex:  titleQuery }
+    title: { $regex: titleQuery },
+    deleted: { $exists: false },
   }
 
   return await client
@@ -62,7 +65,7 @@ const deleteById = async (id) => {
   await client
     .db()
     .collection('post')
-    .deleteOne({ _id: ObjectId(id) })
+    .updateOne({ _id: ObjectId(id) }, { $set: { deleted: true } });
 }
 
 

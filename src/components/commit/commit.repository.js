@@ -79,7 +79,7 @@ const removeCommit = async (id) => {
   await client
     .db()
     .collection('commit')
-    .findOneAndDelete({ _id: ObjectId(id) });
+    .updateOne({ _id: ObjectId(id) }, { $set: { deleted: true } });
 }
 
 
