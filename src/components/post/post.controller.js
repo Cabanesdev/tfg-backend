@@ -12,6 +12,7 @@ const { deleteComments } = require('../comment/comment.repository');
 const getById = async (id) => {
   try {
     const post = await getPostById(id);
+    if (post.deleted) throw new Error('This post not exists');
     return post;
   } catch (err) {
     throw new Error(err.message);

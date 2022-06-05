@@ -25,6 +25,7 @@ const createCommit = async (body, userId) => {
 const getOneById = async (commitId) => {
   try {
     const commit = await getOne(commitId);
+    if (commit.deleted) throw new Error('This commit not exists');
     return commit
   } catch (err) {
     throw new Error(err.message);
